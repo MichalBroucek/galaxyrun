@@ -21,6 +21,15 @@ INITIAL_POS_OFFSETS = [
     [50, 1350],
     [0, 1620],
 
+    [220, 1900],
+    [90, 2000],
+    [-50, 2100],
+    [-150, 2250],
+
+    [-390, 2450],
+    [-250, 2600],
+    [-100, 2750],
+    [200, 2850]
 ]
 
 
@@ -41,5 +50,3 @@ class Meteorites:
         """
         for meteorite in self.meteorites:
             meteorite.update()
-
-
