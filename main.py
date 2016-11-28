@@ -14,12 +14,12 @@ from meteorites import Meteorites
 class Game(Widget):
     def __init__(self):
         super(Game, self).__init__()
-        self.background = Background(source='pictures/background_02_800_450.jpg')
+        self.background = Background(source='background_02_800_450.png')
         self.size = self.background.size
         self.add_widget(self.background)
 
         self.rocket = Rocket(pos=(self.width / 2, 10))
-        self.rocket.pos = (self.background.size[0] / 2, self.size_hint_y + 30)
+        self.rocket.pos = (self.background.size[0] / 2, self.size_hint_y + 60)
         self.add_widget(self.rocket)
 
         self.meteorites = Meteorites(self.center_x, self.center_y)
@@ -31,9 +31,14 @@ class Game(Widget):
         Clock.schedule_interval(self.update, 1.0/60.0)
 
     def update(self, *ignore):
+
+        self.rocket.update()
+
+        if self.rocket.explossion_in_progress:
+            return
+
         self.background.update()
         self.meteorites.update()
-        self.rocket.update()
 
         for meteorite in self.meteorites.meteorites:
             if meteorite.collide_meteorit(self.rocket):
@@ -51,7 +56,7 @@ class Game(Widget):
         self.active_collision = False
 
     def on_touch_move(self, touch):
-        if touch.y < self.height / 4:
+        if touch.y < self.height / 5:
             self.rocket.center_x = touch.x
 
 

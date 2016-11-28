@@ -40,7 +40,7 @@ class Meteorites:
     def __init__(self, center_x, center_y):
         self.meteorites = []
         for meteorite_pos in INITIAL_POS_OFFSETS:
-            meteorite = Meteorit(source='pictures/meteor_smaller.png', pos=(center_x + meteorite_pos[0], center_y + meteorite_pos[1]))
+            meteorite = Meteorit(source='meteor_smaller.png', pos=(center_x + meteorite_pos[0], center_y + meteorite_pos[1]))
             self.meteorites.append(meteorite)
 
     def update(self):

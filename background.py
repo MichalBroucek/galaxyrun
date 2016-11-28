@@ -16,8 +16,8 @@ class Background(Sprite):
         self.add_widget(self.image_dupe)
 
     def update(self):
-        self.image.y -= 1
-        self.image_dupe.y -= 1
+        self.image.y -= 2
+        self.image_dupe.y -= 2
 
         if self.image.top <= 0:
             self.image.y = 0
