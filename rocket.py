@@ -5,15 +5,15 @@ from kivy.clock import Clock
 
 # TODO: How to use subfolders on Android ?
 # TODO: Buildozer needs special configuration ?
-# ROCKET_PNG = "pictures/rocket_01_40x69.png"
-# ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
-# ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
+ROCKET_PNG = "pictures/rocket_01_40x69.png"
+ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
+ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
 
-ROCKET_PNG = "rocket_01_40x69.png"
-ROCKET_HIT_WHITE_PNG = "rocket_01_40x69_white_01.png"
-ROCKET_HIT_RED_PNG = "rocket_01_40x69_red_01.png"
+# ROCKET_PNG = "rocket_01_40x69.png"
+# ROCKET_HIT_WHITE_PNG = "rocket_01_40x69_white_01.png"
+# ROCKET_HIT_RED_PNG = "rocket_01_40x69_red_01.png"
 
-EXPLOSION_MAIN = "explosion_main_60_8x.png"
+EXPLOSION_MAIN = "pictures/explosion_main_60_8x.png"
 
 class Rocket(Sprite):
     """

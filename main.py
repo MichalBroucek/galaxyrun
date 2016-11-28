@@ -14,7 +14,7 @@ from meteorites import Meteorites
 class Game(Widget):
     def __init__(self):
         super(Game, self).__init__()
-        self.background = Background(source='background_02_800_450.png')
+        self.background = Background(source='pictures/background_02_800_450.png')
         self.size = self.background.size
         self.add_widget(self.background)
 
