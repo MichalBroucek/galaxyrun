@@ -23,9 +23,8 @@ class Game(Widget):
         self.rocket.pos = (self.background.size[0] / 2, self.size_hint_y + 60)
         self.add_widget(self.rocket)
 
-        # TODO: add swipe transparent layer
-        self.swiper = Sprite(source='pictures/swiper.png')
-        self.add_widget(self.swiper)
+        self.slider = Sprite(source='pictures/slider.png')
+        self.add_widget(self.slider)
 
         self.meteorites = Meteorites(self.center_x, self.center_y)
         for meteorite in self.meteorites.meteorites:
@@ -61,7 +60,7 @@ class Game(Widget):
         self.active_collision = False
 
     def on_touch_move(self, touch):
-        if touch.y < self.height / 5:
+        if touch.y < self.slider.top:
             self.rocket.center_x = touch.x
 
 
