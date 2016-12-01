@@ -3,7 +3,6 @@ __author__ = 'brouk'
 from meteorit import Meteorit
 
 # Initial [x_offset, y_offset] for individual meteorites
-# TODO: debug possitions - some may be out of Game
 INITIAL_POS_OFFSETS = [
     [50, 300],
     [200, 450],

@@ -9,6 +9,7 @@ from kivy.clock import Clock
 from background import Background
 from rocket import Rocket
 from meteorites import Meteorites
+from sprite import Sprite
 
 
 class Game(Widget):
@@ -22,6 +23,10 @@ class Game(Widget):
         self.rocket.pos = (self.background.size[0] / 2, self.size_hint_y + 60)
         self.add_widget(self.rocket)
 
+        # TODO: add swipe transparent layer
+        self.swiper = Sprite(source='pictures/swiper.png')
+        self.add_widget(self.swiper)
+
         self.meteorites = Meteorites(self.center_x, self.center_y)
         for meteorite in self.meteorites.meteorites:
             self.add_widget(meteorite)
@@ -34,7 +39,7 @@ class Game(Widget):
 
         self.rocket.update()
 
-        if self.rocket.explossion_in_progress:
+        if self.rocket.explosion_in_progress:
             return
 
         self.background.update()

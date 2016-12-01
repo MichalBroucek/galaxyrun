@@ -9,11 +9,13 @@ ROCKET_PNG = "pictures/rocket_01_40x69.png"
 ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
 ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
 
-# ROCKET_PNG = "rocket_01_40x69.png"
-# ROCKET_HIT_WHITE_PNG = "rocket_01_40x69_white_01.png"
-# ROCKET_HIT_RED_PNG = "rocket_01_40x69_red_01.png"
-
-EXPLOSION_MAIN = "pictures/explosion_main_60_8x.png"
+EXPLOSION_1 = "pictures/explosion_process/explosion_1.png"
+EXPLOSION_2 = "pictures/explosion_process/explosion_2.png"
+EXPLOSION_3 = "pictures/explosion_process/explosion_3.png"
+EXPLOSION_4 = "pictures/explosion_process/explosion_4.png"
+EXPLOSION_5 = "pictures/explosion_process/explosion_5.png"
+EXPLOSION_6 = "pictures/explosion_process/explosion_6.png"
+EXPLOSION_7 = "pictures/explosion_process/explosion_7.png"
 
 class Rocket(Sprite):
     """
@@ -24,12 +26,12 @@ class Rocket(Sprite):
         self.num_lives = 3
         self.first_collision = False
         self.existing_collision = False
-        self.explossion_in_progress = False
+        self.explosion_in_progress = False
 
     def update(self):
         if self.first_collision:
             self.first_collision = False
-            self.explossion_in_progress = True
+            self.explosion_in_progress = True
             self.__explode()
             print "################ EXPLODE #######################"
 
@@ -43,30 +45,53 @@ class Rocket(Sprite):
         print "++++++++ NUMBER OF LIVES: {0} ++++++++".format(self.num_lives)
 
     def __partial_explode(self):
-        # Clock.schedule_once(self.__set_white_color, 0)
-        # Clock.schedule_once(self.__set_red_color, 0)
-        # Clock.schedule_once(self.__set_white_color, 0.2)
-        # Clock.schedule_once(self.__set_red_color, 0.3)
-        # Clock.schedule_once(self.__set_white_color, 0.4)
-        # Clock.schedule_once(self.__set_red_color, 0.5)
-        # Clock.schedule_once(self.__set_default_color, 0.7)
+        Clock.schedule_once(self.__set_explosion_1, 0)
+        Clock.schedule_once(self.__set_explosion_2, 0.1)
+        Clock.schedule_once(self.__set_explosion_3, 0.2)
+        Clock.schedule_once(self.__set_explosion_4, 0.3)
+        Clock.schedule_once(self.__set_explosion_5, 0.4)
+        Clock.schedule_once(self.__set_explosion_6, 0.5)
+        Clock.schedule_once(self.__set_explosion_7, 0.6)
+        Clock.schedule_once(self.__set_default_color, 1)
 
-        Clock.schedule_once(self.__set_explosion_main, 0)
-        Clock.schedule_once(self.__set_default_color, 0.3)
+    def __set_default_color(self, dt):
+        self.source = ROCKET_PNG
+        self.size = (40, 69)
+        self.explosion_in_progress = False
 
     def __set_white_color(self, dt):
         self.source = ROCKET_HIT_WHITE_PNG
         self.size = (40, 69)
 
-    def __set_default_color(self, dt):
         self.source = ROCKET_PNG
         self.size = (40, 69)
-        self.explossion_in_progress = False
+        self.explosion_in_progress = False
 
     def __set_red_color(self, dt):
         self.source = ROCKET_HIT_RED_PNG
         self.size = (40, 69)
 
-    def __set_explosion_main(self, dt):
-        self.source = EXPLOSION_MAIN
-        self.size = (50, 50)
+    def __set_explosion_1(self, dt):
+        self.source = EXPLOSION_1
+
+    def __set_explosion_2(self, dt):
+        self.source = EXPLOSION_2
+
+    def __set_explosion_3(self, dt):
+        self.source = EXPLOSION_3
+
+    def __set_explosion_4(self, dt):
+        self.source = EXPLOSION_4
+        self.size = (60, 70)
+
+    def __set_explosion_5(self, dt):
+        self.source = EXPLOSION_5
+        self.size = (60, 70)
+
+    def __set_explosion_6(self, dt):
+        self.source = EXPLOSION_6
+        self.size = (60, 70)
+
+    def __set_explosion_7(self, dt):
+        self.source = EXPLOSION_7
+        self.size = (60, 70)
