@@ -11,6 +11,12 @@ from rocket import Rocket
 from meteorites import Meteorites
 from sprite import Sprite
 
+# TODO:
+# 1) Add 'Game over'
+# 2) Add '1st level done'
+# 3) Add game menu
+# 4) Add saving progress ? - just open new levels
+
 
 class Game(Widget):
     def __init__(self):
