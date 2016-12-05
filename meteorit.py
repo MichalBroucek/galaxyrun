@@ -18,7 +18,7 @@ class Meteorit(Sprite):
         super(Meteorit, self).__init__(source=source, pos=pos)
 
     def update(self):
-        self.center_y -= 3
+        self.center_y -= 7
         # TODO: check if meteorit is out of window and re-set Y coordinates if yes
 
     def collide_meteorit(self, wid):

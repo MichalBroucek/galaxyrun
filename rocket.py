@@ -1,7 +1,9 @@
 __author__ = 'brouk'
 
-from sprite import Sprite
 from kivy.clock import Clock
+
+from sprite import Sprite
+
 
 # TODO: How to use subfolders on Android ?
 # TODO: Buildozer needs special configuration ?
@@ -17,16 +19,17 @@ EXPLOSION_5 = "pictures/explosion_process/explosion_5.png"
 EXPLOSION_6 = "pictures/explosion_process/explosion_6.png"
 EXPLOSION_7 = "pictures/explosion_process/explosion_7.png"
 
+
 class Rocket(Sprite):
     """
     Rocket
     """
     def __init__(self, pos):
         super(Rocket, self).__init__(source=ROCKET_PNG, pos=pos)
-        self.num_lives = 3
         self.first_collision = False
         self.existing_collision = False
         self.explosion_in_progress = False
+        self.collision_complete = False
 
     def update(self):
         if self.first_collision:
@@ -35,14 +38,17 @@ class Rocket(Sprite):
             self.__explode()
             print "################ EXPLODE #######################"
 
+        if not self.collision_complete:
+            return True
+        else:
+            return False
+
     def __explode(self):
         """
         Rocket hits meteorite and explodes
         :return:
         """
         self.__partial_explode()
-        self.num_lives -= 1
-        print "++++++++ NUMBER OF LIVES: {0} ++++++++".format(self.num_lives)
 
     def __partial_explode(self):
         Clock.schedule_once(self.__set_explosion_1, 0)
@@ -52,7 +58,7 @@ class Rocket(Sprite):
         Clock.schedule_once(self.__set_explosion_5, 0.4)
         Clock.schedule_once(self.__set_explosion_6, 0.5)
         Clock.schedule_once(self.__set_explosion_7, 0.6)
-        Clock.schedule_once(self.__set_default_color, 1)
+        #Clock.schedule_once(self.__set_default_color, 1)
 
     def __set_default_color(self, dt):
         self.source = ROCKET_PNG
@@ -95,3 +101,4 @@ class Rocket(Sprite):
     def __set_explosion_7(self, dt):
         self.source = EXPLOSION_7
         self.size = (60, 70)
+        self.collision_complete = True
