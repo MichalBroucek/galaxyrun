@@ -21,7 +21,6 @@ class Game(Widget):
     def __init__(self):
         super(Game, self).__init__()
         self.__activate_menu(None)
-        self.active_collision = False
         self.start_game_init = False
         self.game_scene_init = False
         self.game_over_active = False
@@ -39,30 +38,24 @@ class Game(Widget):
         self.running_loop.cancel()
 
     def update(self, *ignore):
+        # Main ACTION LOOP ... TODO: Make it simple !!!
 
-        if not self.rocket.update():
+        if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
             self.__activate_game_over(None)
 
-        if self.rocket.explosion_in_progress:
-            return      # Doesn't update background and other game processes
+        if self.rocket.new_collision_detected:          # Activate collision process on new collision
+            self.rocket.activate_explossion()
 
-        self.game_background.update()
-        self.meteorites.update()
+        if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
+            return
 
-        for meteorite in self.meteorites.meteorites:
+        if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
+            self.game_background.update()
+            self.meteorites.update()
+
+        for meteorite in self.meteorites.meteorites:    # Check for collision and setup rocket collision flag
             if meteorite.collide_meteorit(self.rocket):
-                self.active_collision = True
-
-        if self.active_collision:
-            #print "\t\t| Collision |"
-            if not self.rocket.existing_collision:
-                self.rocket.first_collision = True
-                self.rocket.existing_collision = True
-        else:
-            self.rocket.first_collision = False
-            self.rocket.existing_collision = False
-
-        self.active_collision = False
+                self.rocket.new_collision_detected = True
 
     def on_touch_move(self, touch):
         """

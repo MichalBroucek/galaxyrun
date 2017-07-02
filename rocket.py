@@ -26,22 +26,16 @@ class Rocket(Sprite):
     """
     def __init__(self, pos):
         super(Rocket, self).__init__(source=ROCKET_PNG, pos=pos)
-        self.first_collision = False
-        self.existing_collision = False
-        self.explosion_in_progress = False
+        self.new_collision_detected = False            # Why it's needed
+        self.collision_in_progress = False
         self.collision_complete = False
 
-    def update(self):
-        if self.first_collision:
-            self.first_collision = False
-            self.explosion_in_progress = True
+    def activate_explossion(self):
+        if not self.collision_in_progress:
+            self.new_collision_detected = False
+            self.collision_in_progress = True
             self.__explode()
             print "################ EXPLODE #######################"
-
-        if not self.collision_complete:
-            return True
-        else:
-            return False
 
     def __explode(self):
         """
@@ -63,7 +57,7 @@ class Rocket(Sprite):
     def __set_default_color(self, dt):
         self.source = ROCKET_PNG
         self.size = (40, 69)
-        self.explosion_in_progress = False
+        self.collision_in_progress = False
 
     def __set_white_color(self, dt):
         self.source = ROCKET_HIT_WHITE_PNG
@@ -71,7 +65,7 @@ class Rocket(Sprite):
 
         self.source = ROCKET_PNG
         self.size = (40, 69)
-        self.explosion_in_progress = False
+        self.collision_in_progress = False
 
     def __set_red_color(self, dt):
         self.source = ROCKET_HIT_RED_PNG
