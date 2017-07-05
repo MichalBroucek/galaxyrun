@@ -44,7 +44,7 @@ class Game(Widget):
             self.__activate_game_over(None)
 
         if self.rocket.new_collision_detected:          # Activate collision process on new collision
-            self.rocket.activate_explossion()
+            self.rocket.activate_explosion()
 
         if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
             return

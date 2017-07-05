@@ -30,7 +30,7 @@ class Rocket(Sprite):
         self.collision_in_progress = False
         self.collision_complete = False
 
-    def activate_explossion(self):
+    def activate_explosion(self):
         if not self.collision_in_progress:
             self.new_collision_detected = False
             self.collision_in_progress = True

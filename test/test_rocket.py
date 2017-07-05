@@ -1,10 +1,7 @@
 import unittest
-#import unittest.mock
+from mock import Mock
 import os
 
-# import sys
-# sys.path.append('..')           # make parent directory visible for import
-# from rocket import Rocket
 
 import rocket
 
@@ -15,7 +12,7 @@ class TestRocket(unittest.TestCase):
     # preparing to test
     def setUp(self):
         """ Setting up for the test """
-        #os.chdir('..')                     # If run just this file from IDE
+        # os.chdir('..')                     # If run just this file from IDE
         self.rocket = rocket.Rocket(pos=(60, 20))
 
     # ending the test
@@ -24,10 +21,38 @@ class TestRocket(unittest.TestCase):
         pass
 
     def test_default_rocket(self):
-        #self.assertIsNone(self.param.action, msg='action is "None" by default')
+        # self.assertIsNone(self.param.action, msg='action is "None" by default')
+        # self.assertTrue(True, msg='(test 01) Verifying that assert works.')
         self.assertIsNotNone(self.rocket, msg='Rocket obj is None!')
-        self.assertTrue(True, msg='(test 01) Verifying that assert works.')
-        pass
+        self.assertFalse(self.rocket.new_collision_detected,
+                         msg='There is new collision when new Rocket is created !')
+        self.assertFalse(self.rocket.collision_in_progress,
+                         msg='There is collision in progress when Rocket is created!')
+        self.assertFalse(self.rocket.collision_complete,
+                         msg='There is collision completed when Rocket is created!')
+
+    def test_activate_explosion_when_none_in_progress(self):
+        self.rocket.collision_in_progress = False
+        self.rocket.new_collision_detected = True
+        self.rocket.collision_complete = False
+        self.rocket._Rocket__explode = Mock(name='explode')
+        self.rocket.activate_explosion()
+        self.rocket._Rocket__explode.assert_called()
+        self.assertFalse(self.rocket.new_collision_detected, msg='New collision state wasn\'t cleared!')
+        self.assertTrue(self.rocket.collision_in_progress, msg='Collision process didn\'t start!')
+        self.assertFalse(self.rocket.collision_complete, msg='Collision finished already!')
+
+    def test_activate_explosion_when_one_in_progress(self):
+        self.rocket.collision_in_progress = True
+        self.rocket.new_collision_detected = True
+        self.rocket.collision_complete = False
+        self.rocket._Rocket__explode = Mock(name='explode')
+        self.rocket.activate_explosion()
+        self.rocket._Rocket__explode.assert_not_called()
+        self.assertTrue(self.rocket.new_collision_detected, msg='New collision state was cleared!')
+        self.assertTrue(self.rocket.collision_in_progress, msg='Collision process didn\'t start!')
+        self.assertFalse(self.rocket.collision_complete, msg='Collision finished already!')
+
 
 if __name__ == '__main__':
     unittest.main()
