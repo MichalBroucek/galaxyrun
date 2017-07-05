@@ -7,6 +7,8 @@ from kivy.core.window import Window
 from game import Game
 
 # TODO:
+# 0) Add unittests !!!
+# 0.5) Refactor - create src folder and clean code and design for further maintenance !
 # 1) Add 'Game over'
 # 2) Add '1st level done'
 # 3) Add game menu
