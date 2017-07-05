@@ -35,16 +35,8 @@ class Rocket(Sprite):
             self.new_collision_detected = False
             self.collision_in_progress = True
             self.__explode()
-            print "################ EXPLODE #######################"
 
     def __explode(self):
-        """
-        Rocket hits meteorite and explodes
-        :return:
-        """
-        self.__partial_explode()
-
-    def __partial_explode(self):
         Clock.schedule_once(self.__set_explosion_1, 0)
         Clock.schedule_once(self.__set_explosion_2, 0.1)
         Clock.schedule_once(self.__set_explosion_3, 0.2)
