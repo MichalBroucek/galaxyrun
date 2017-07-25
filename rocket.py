@@ -11,6 +11,9 @@ ROCKET_PNG = "pictures/rocket_01_40x69.png"
 ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
 ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
 
+ROCKET_WIDTH = 40
+ROCKET_HEIGHT = 69
+
 EXPLOSION_1 = "pictures/explosion_process/explosion_1.png"
 EXPLOSION_2 = "pictures/explosion_process/explosion_2.png"
 EXPLOSION_3 = "pictures/explosion_process/explosion_3.png"
@@ -48,20 +51,20 @@ class Rocket(Sprite):
 
     def __set_default_color(self, dt):
         self.source = ROCKET_PNG
-        self.size = (40, 69)
+        self.size = (ROCKET_WIDTH, ROCKET_HEIGHT)
         self.collision_in_progress = False
 
     def __set_white_color(self, dt):
         self.source = ROCKET_HIT_WHITE_PNG
-        self.size = (40, 69)
+        self.size = (ROCKET_WIDTH, ROCKET_HEIGHT)
 
         self.source = ROCKET_PNG
-        self.size = (40, 69)
+        self.size = (ROCKET_WIDTH, ROCKET_HEIGHT)
         self.collision_in_progress = False
 
     def __set_red_color(self, dt):
         self.source = ROCKET_HIT_RED_PNG
-        self.size = (40, 69)
+        self.size = (ROCKET_WIDTH, ROCKET_HEIGHT)
 
     def __set_explosion_1(self, dt):
         self.source = EXPLOSION_1

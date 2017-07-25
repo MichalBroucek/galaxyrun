@@ -2,6 +2,14 @@ __author__ = 'brouk'
 
 from sprite import Sprite
 
+# TODO:
+# 1. Refactor all magic constants and create variables
+
+COLLISION_BOTTOM_BOTTOM_OFFSET = 15
+COLLISION_BOTTOM_TOP_OFFSET = 65
+COLLISION_BOTTOM_LEFT_OFFSET = 85
+COLLISION_BOTTOM_RIGHT_OFFSET = 110
+
 
 def print_coordinates(name, widget):
     print "{0}.x={1}".format(name, widget.x)
@@ -25,10 +33,8 @@ class Meteorit(Sprite):
         """
         Check if another widget collides with this meteorite.
         """
-
         # There are 3 different parts (on 'y' axis) with different 'x' and 'rights' where we detect collisions
         # 3 different rectangles for collision detection are used
-
         if self.__collide_with_bottom(wid):
             #print "BOTTOM Collision ... Collision ... Collision ... Collision ..."
             return True
@@ -57,10 +63,10 @@ class Meteorit(Sprite):
         :param wid: widget to collide with
         :return: True if collision happens
         """
-        bottom_bottom = self.y + 15
-        bottom_top = self.y + 65
-        bottom_x = self.x + 85
-        bottom_right = self.right - 110
+        bottom_bottom = self.y + COLLISION_BOTTOM_BOTTOM_OFFSET
+        bottom_top = self.y + COLLISION_BOTTOM_TOP_OFFSET
+        bottom_x = self.x + COLLISION_BOTTOM_LEFT_OFFSET
+        bottom_right = self.right - COLLISION_BOTTOM_RIGHT_OFFSET
 
         if bottom_bottom <= wid.top <= bottom_top:
             if bottom_right >= wid.x and bottom_x <= wid.right:
