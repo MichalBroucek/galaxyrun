@@ -10,6 +10,16 @@ COLLISION_BOTTOM_TOP_OFFSET = 65
 COLLISION_BOTTOM_LEFT_OFFSET = 85
 COLLISION_BOTTOM_RIGHT_OFFSET = 110
 
+COLLISION_MIDDLE_BOTTOM_OFFSET = 66
+COLLISION_MIDDLE_TOP_OFFSET = 153
+COLLISION_MIDDLE_LEFT_OFFSET = 25
+COLLISION_MIDDLE_RIGHT_OFFSET = 30
+
+COLLISION_TOP_BOTTOM_OFFSET = 154
+COLLISION_TOP_TOP_OFFSET = 183
+COLLISION_TOP_LEFT_OFFSET = 55
+COLLISION_TOP_RIGHT_OFFSET = 50
+
 
 def print_coordinates(name, widget):
     print "{0}.x={1}".format(name, widget.x)
@@ -80,10 +90,10 @@ class Meteorit(Sprite):
         :param wid: widget to collide with
         :return: True if collision happens
         """
-        middle_bottom = self.y + 66     # 1 px bigger than bottom_top
-        middle_top = self.y + 153
-        middle_x = self.x + 25
-        middle_right = self.right - 30
+        middle_bottom = self.y + COLLISION_MIDDLE_BOTTOM_OFFSET     # 1 px bigger than bottom_top
+        middle_top = self.y + COLLISION_MIDDLE_TOP_OFFSET
+        middle_x = self.x + COLLISION_MIDDLE_LEFT_OFFSET
+        middle_right = self.right - COLLISION_MIDDLE_RIGHT_OFFSET
 
         if middle_bottom <= wid.top <= middle_top:
             if middle_right >= wid.x and middle_x <= wid.right:
@@ -97,10 +107,10 @@ class Meteorit(Sprite):
         :param wid:
         :return:
         """
-        top_bottom = self.y + 154
-        top_top = self.y + 183
-        top_x = self.x + 55
-        top_right = self.right - 50
+        top_bottom = self.y + COLLISION_TOP_BOTTOM_OFFSET
+        top_top = self.y + COLLISION_TOP_TOP_OFFSET
+        top_x = self.x + COLLISION_TOP_LEFT_OFFSET
+        top_right = self.right - COLLISION_TOP_RIGHT_OFFSET
 
         if top_bottom <= wid.top and wid.y <= top_top:
             if top_right >= wid.x and top_x <= wid.right:
