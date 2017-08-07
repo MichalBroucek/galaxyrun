@@ -7,12 +7,13 @@ from kivy.core.window import Window
 from game import Game
 
 # TODO:
-# 0) Add unittests !!!
+# 0) Add more unittests !!!
 # 0.5) Refactor - create src folder and clean code and design for further maintenance !
-# 1) Add 'Game over'
-# 2) Add '1st level done'
-# 3) Add game menu
+# 1) Add 'Game over' screen
+# 2) Add '1st level done' - screen -
+# DONE 3) Add game menu
 # 4) Add saving progress ? - just open new levels
+# 5) Add all levels screen (with opened and closed levels) - need to write it into file (persistence) ?!
 
 
 class GameApp(App):

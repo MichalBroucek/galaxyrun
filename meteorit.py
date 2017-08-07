@@ -2,9 +2,6 @@ __author__ = 'brouk'
 
 from sprite import Sprite
 
-# TODO:
-# 1. Refactor all magic constants and create variables
-
 COLLISION_BOTTOM_BOTTOM_OFFSET = 15
 COLLISION_BOTTOM_TOP_OFFSET = 65
 COLLISION_BOTTOM_LEFT_OFFSET = 85
@@ -30,7 +27,7 @@ def print_coordinates(name, widget):
 
 class Meteorit(Sprite):
     """
-    Rocket
+    Meteorite which can fly throw screen and collide with Rocket object
     """
     def __init__(self, source, pos):
         super(Meteorit, self).__init__(source=source, pos=pos)

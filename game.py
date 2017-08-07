@@ -38,7 +38,6 @@ class Game(Widget):
         self.running_loop.cancel()
 
     def update(self, *ignore):
-        # Main ACTION LOOP ... TODO: Make it simple !!!
 
         if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
             self.__activate_game_over(None)
@@ -66,11 +65,29 @@ class Game(Widget):
         if touch.y < self.slider.top:
             self.rocket.center_x = touch.x
 
+    def __deactivate_all_buttons(self):
+        """
+        Deactivate all buttons in the game - to prevent reaction on click on different screens
+        - New button need to be added manually :-(  ... TODO: try to make it better
+        """
+        if hasattr(self, 'play_b'):
+            self.play_b.disabled = True
+        if hasattr(self, 'exit_b'):
+            self.exit_b.disabled = True
+        if hasattr(self, 'levels_b'):
+            self.levels_b.disabled = True
+        if hasattr(self, 'main_menu_b'):
+            self.main_menu_b.disabled = True
+        if hasattr(self, 'play_again_b'):
+            self.play_again_b.disabled = True
+
     def __activate_menu(self, event):
         """
         Initialize menu view and activate menu screen
         :return:
         """
+        self.__deactivate_all_buttons()
+
         self.menu_background = Background(source='pictures/menu_background.png')
         self.size = self.menu_background.size
         self.add_widget(self.menu_background)
@@ -84,16 +101,26 @@ class Game(Widget):
         self.galaxy_run_l.color = [0.7, 0.7, 0.7, 0.2]
         self.add_widget(self.galaxy_run_l)
 
-        # Two buttons - menu x play again
-        self.play_b = Button(text='Play', font_size=22)
+        # New Game Button
+        self.play_b = Button(text='New game', font_size=22)
         self.play_b.x = self.right / 2 - 30
-        self.play_b.y = self.galaxy_run_l.y - 80
+        self.play_b.y = self.galaxy_run_l.y - 75
         self.play_b.size = (120, 60)
         self.play_b.bind(on_press=self.__activate_game)
         self.add_widget(self.play_b)
+
+        # Individual Levels Button
+        self.levels_b = Button(text='Levels', font_size=22)
+        self.levels_b.x = self.right / 2 - 30
+        self.levels_b.y = self.play_b.y - 85
+        self.levels_b.size = (120, 60)
+        #self.levels_b.bind(on_press=self.__activate_levels)
+        self.add_widget(self.levels_b)
+
+        # Exit Button
         self.exit_b = Button(text='Exit', font_size=22)
         self.exit_b.x = self.right / 2 - 30
-        self.exit_b.y = self.play_b.y - 100
+        self.exit_b.y = self.levels_b.y - 85
         self.exit_b.size = (120, 60)
         self.exit_b.bind(on_press=self.__exit_app)
         self.add_widget(self.exit_b)
@@ -103,6 +130,8 @@ class Game(Widget):
         Initialize game window
         :return:
         """
+        self.__deactivate_all_buttons()
+
         self.game_background = Background(source='pictures/background_02_800_450.png')
         self.rocket = Rocket(pos=(self.width / 2, 10))
         self.rocket.pos = (self.game_background.size[0] / 2, self.size_hint_y + 60)
@@ -122,6 +151,8 @@ class Game(Widget):
         Initialize game over screen
         :return:
         """
+        self.__deactivate_all_buttons()
+
         print "-----------------"
         print "--- GAME OVER ---"
         print "-----------------"
