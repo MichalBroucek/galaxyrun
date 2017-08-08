@@ -4,7 +4,8 @@ __author__ = 'brouk'
 from kivy.app import App
 from kivy.core.window import Window
 
-from game import Game
+from src.game import Game
+
 
 # TODO:
 # 0) Add more unittests !!!

@@ -1,6 +1,6 @@
 __author__ = 'brouk'
 
-from meteorit import Meteorit
+from src.meteorit import Meteorit
 
 # Initial [x_offset, y_offset] for individual meteorites
 INITIAL_POS_OFFSETS = [

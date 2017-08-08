@@ -1,8 +1,9 @@
 __author__ = 'brouk'
 
 import unittest
-import meteorit
-import rocket
+
+from src import meteorit
+from src import rocket
 
 
 class TestMeteorit(unittest.TestCase):

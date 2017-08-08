@@ -6,10 +6,11 @@ from kivy.uix.button import Button
 from kivy.clock import Clock
 from kivy.app import App
 
-from background import Background
+from src.background import Background
 from rocket import Rocket
 from meteorites import Meteorites
 from sprite import Sprite
+
 
 # Game statuses
 MAIN_MENU_STATE = "MAIN_MENU"

@@ -1,9 +1,8 @@
 import unittest
+
 from mock import Mock
-import os
 
-
-import rocket
+from src import rocket
 
 __author__ = 'brouk'
 
