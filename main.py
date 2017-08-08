@@ -9,10 +9,10 @@ from game import Game
 # TODO:
 # 0) Add more unittests !!!
 # 0.5) Refactor - create src folder and clean code and design for further maintenance !
+# 0.7) Refactor - Create "game states" ... intro, menu, game_running, game over ? and refactor src
 # 1) Add 'Game over' screen
 # 2) Add '1st level done' - screen -
 # DONE 3) Add game menu
-# 4) Add saving progress ? - just open new levels
 # 5) Add all levels screen (with opened and closed levels) - need to write it into file (persistence) ?!
 
 
