@@ -9,8 +9,10 @@ from src.game import Game
 
 # TODO:
 # 0) Add more unittests !!!
-# 0.5) Refactor - create src folder and clean code and design for further maintenance !
+# DONE 0.5) Refactor - create src folder and clean code and design for further maintenance !
 # 0.7) Refactor - Create "game states" ... intro, menu, game_running, game over ? and refactor src
+#           New class for all for menus in separate src file and keep game.py for running game ?
+#           Don't over-complicate this ! it's just POC !
 # 1) Add 'Game over' screen
 # 2) Add '1st level done' - screen -
 # DONE 3) Add game menu
