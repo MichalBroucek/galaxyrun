@@ -6,6 +6,7 @@ from kivy.app import App
 
 import menu
 import screen_const
+import level_persistance
 
 
 # Game statuses
@@ -22,6 +23,10 @@ class Game(Widget):
         self.start_game_init = False
         self.game_scene_init = False
         self.game_over_active = False
+        self.levels_buttons = []
+        persis = level_persistance.Persistence()
+        self.level = persis.read_level()
+        #print 'Actual LEVEL: ', self.level
 
     def __run_update(self):
         """
@@ -53,6 +58,8 @@ class Game(Widget):
         for meteorite in self.meteorites.meteorites:    # Check for collision and setup rocket collision flag
             if meteorite.collide_meteorit(self.rocket):
                 self.rocket.new_collision_detected = True
+
+        # TODO: Add 'LEVEL COMPLETE' screen and open next LEVEL
 
     def on_touch_move(self, touch):
         """
@@ -91,7 +98,7 @@ class Game(Widget):
         self.add_widget(self.galaxy_run_l)
         self.play_b.bind(on_press=self.__run_game)     # Add functionality to 'play button'
         self.add_widget(self.play_b)
-        #self.levels_b.bind(on_press=self.__activate_game)  # TODO: implement new levels menu!
+        self.levels_b.bind(on_press=self.__activate_levels_screen)  # TODO: implement new levels menu!
         self.add_widget(self.levels_b)
         self.exit_b.bind(on_press=self.__exit_app)          # Move bind into menu.py
         self.add_widget(self.exit_b)
@@ -125,11 +132,39 @@ class Game(Widget):
         self.add_widget(self.main_menu_b)
         self.__stop_update()
 
+    def __activate_levels_screen(self, event):
+        """
+        Opens Levels screen for individuals levels
+        :return:
+        """
+        self.__deactivate_all_buttons()
+        self.levels_background, self.levels_label, self.main_menu_b, self.levels_buttons = self.menu.get_levels_items(self.level)
+        self.add_widget(self.levels_background)
+        self.add_widget(self.levels_label)
+        self.levels_buttons[0].bind(on_press=self.__run_game)
+        self.add_widget(self.levels_buttons[0])
+        self.add_widget(self.levels_buttons[1])
+        self.add_widget(self.levels_buttons[2])
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+    def __activate_new_level(self, event):
+        """
+        Activate new level screeen
+        :param event:
+        :return:
+        """
+        print "New Level was activated ..."
+
     def __exit_app(self, event):
         """
         Close and exit App
         :param event:
         :return:
         """
+        # new_level = 1
+        # print 'Saving LEVEL: ', new_level
+        # level_persistance.save_level(new_level)
+
         print "Bye bye ..."
         App.get_running_app().stop()
