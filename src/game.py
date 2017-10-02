@@ -18,7 +18,7 @@ GAME_OVER_STATE = "GAME_OVER"
 class Game(Widget):
     def __init__(self):
         super(Game, self).__init__()
-        self.menu = menu.Menu()
+        self.menu_obj = menu.Menu()
         self.__activate_menu(None)
         self.start_game_init = False
         self.game_scene_init = False
@@ -92,28 +92,32 @@ class Game(Widget):
         :return:
         """
         self.__deactivate_all_buttons()
-        self.menu_background, self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b = self.menu.get_main_menu_items()
+        self.menu_background, self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b = self.menu_obj.get_main_menu_items()
         self.size = screen_const.SCREEN_SIZE        # Setup size of the main screen
         self.add_widget(self.menu_background)
         self.add_widget(self.galaxy_run_l)
-        self.play_b.bind(on_press=self.__run_game)     # Add functionality to 'play button'
+        self.play_b.bind(on_press=self.run_game)     # Add functionality to 'play button'
         self.add_widget(self.play_b)
         self.levels_b.bind(on_press=self.__activate_levels_screen)  # TODO: implement new levels menu!
         self.add_widget(self.levels_b)
         self.exit_b.bind(on_press=self.__exit_app)          # Move bind into menu.py
         self.add_widget(self.exit_b)
 
-    def __run_game(self, event):
+    def run_game(self):
         """
         Initialize game window
         :return:
         """
         self.__deactivate_all_buttons()
-        self.game_background, self.rocket, self.slider, self.meteorites = self.menu.get_run_game_items(self.center_x, self.center_y)
-        self.rocket.pos = (self.game_background.size[0] / 2, self.size_hint_y + 60)
+        self.game_background, self.rocket, self.slider, self.meteorites = self.menu_obj.get_run_game_items(self.center_x, self.center_y)
+        self.rocket.pos = (self.size[0] / 2, self.size_hint_y + 60)
         self.add_widget(self.game_background)
         self.add_widget(self.rocket)
+
+        self.slider.pos = (self.x, self.y + 2)
+        self.slider.size = (self.right, 50)
         self.add_widget(self.slider)
+
         for meteorite in self.meteorites.meteorites:
             self.add_widget(meteorite)
         self.__run_update()
@@ -124,9 +128,9 @@ class Game(Widget):
         :return:
         """
         self.__deactivate_all_buttons()
-        self.game_over_l, self.play_again_b, self.main_menu_b = self.menu.get_game_over_menu_items()
+        self.game_over_l, self.play_again_b, self.main_menu_b = self.menu_obj.get_game_over_menu_items()
         self.add_widget(self.game_over_l)
-        self.play_again_b.bind(on_press=self.__run_game)
+        self.play_again_b.bind(on_press=self.run_game)
         self.add_widget(self.play_again_b)
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
@@ -138,10 +142,10 @@ class Game(Widget):
         :return:
         """
         self.__deactivate_all_buttons()
-        self.levels_background, self.levels_label, self.main_menu_b, self.levels_buttons = self.menu.get_levels_items(self.level)
+        self.levels_background, self.levels_label, self.main_menu_b, self.levels_buttons = self.menu_obj.get_levels_items(self.level)
         self.add_widget(self.levels_background)
         self.add_widget(self.levels_label)
-        self.levels_buttons[0].bind(on_press=self.__run_game)
+        self.levels_buttons[0].bind(on_press=self.run_game)
         self.add_widget(self.levels_buttons[0])
         self.add_widget(self.levels_buttons[1])
         self.add_widget(self.levels_buttons[2])

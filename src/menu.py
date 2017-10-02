@@ -1,9 +1,14 @@
+from src.meteorites_level_2 import MeteoritesLevel2
+
 __author__ = 'brouk'
 
 # Modul to create all menus for Game
 
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.image import Image
+
+from kivy.core.window import Window     # To make menu screen fullscreen
 
 from src.background import Background
 from src import screen_const
@@ -19,6 +24,9 @@ class Menu:
     """
 
     def __init__(self):
+        """
+        :rtype : object
+        """
         self.play_b = None
         self.exit_b = None
         self.levels_b = None
@@ -51,7 +59,10 @@ class Menu:
         self.__deactivate_all_buttons()
 
         # Menu Background
-        self.menu_background = Background(source='pictures/menu_background.png')
+        self.menu_background = Background(source='pictures/background_1280x688.jpg')
+        #self.menu_background = StaticBackground('pictures/background_1280x688.jpg').image
+        #self.menu_background = StaticBackground('pictures/background_02_800_450.png').image
+        self.menu_background.allow_stretch = True
 
         # Galaxyrun Label
         self.galaxy_run_l = Label(text='[b]GALAXY RUN[/b]', markup=True)
@@ -79,17 +90,73 @@ class Menu:
         self.exit_b.size = (120, 60)
 
         return [self.menu_background, self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b]
+        #return [self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b]
 
-    def get_run_game_items(self, center_x, center_y):
+    def get_main_menu_items_2(self):
         """
-        Return items for run engine
+        Return Main menu items for main menu screen: New game, Levels, Exit and Background Widgets
         :return:
         """
+        self.__deactivate_all_buttons()
 
+        # Menu Background
+        #self.menu_background = Background(source='pictures/background_1280x688.jpg')
+        #self.menu_background = StaticBackground('pictures/background_1280x688.jpg').image
+        #self.menu_background = StaticBackground('pictures/background_02_800_450.png').image
+        #aelf.menu_background.allow_stretch = True
+
+        # Galaxyrun Label
+        self.galaxy_run_l = Label(text='[b]GALAXY RUN[/b]', markup=True)
+        self.galaxy_run_l.font_size = 36
+        self.galaxy_run_l.x = screen_const.SCREEN_LENGTH / 2 - 30
+        self.galaxy_run_l.y = screen_const.SCREEN_HIGH - 150
+        self.galaxy_run_l.color = [0.7, 0.7, 0.7, 0.2]
+
+        # New Game Button
+        self.play_b = Button(text='New game', font_size=22)
+        self.play_b.x = screen_const.SCREEN_LENGTH / 2 - 30
+        self.play_b.y = self.galaxy_run_l.y - 75
+        self.play_b.size = (120, 60)
+
+        # Individual Levels Button
+        self.levels_b = Button(text='Levels', font_size=22)
+        self.levels_b.x = screen_const.SCREEN_LENGTH / 2 - 30
+        self.levels_b.y = self.play_b.y - 85
+        self.levels_b.size = (120, 60)
+
+        # Exit Button
+        self.exit_b = Button(text='Exit', font_size=22)
+        self.exit_b.x = screen_const.SCREEN_LENGTH / 2 - 30
+        self.exit_b.y = self.levels_b.y - 85
+        self.exit_b.size = (120, 60)
+
+        #return [self.menu_background, self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b]
+        return [self.galaxy_run_l, self.play_b, self.levels_b, self.exit_b]
+
+
+
+    def get_level_1_run_items(self, center_x, center_y):
+        """
+        Return items for running level 1
+        :return:
+        """
         game_background = Background(source='pictures/background_02_800_450.png')
         my_rocket = Rocket(pos=(screen_const.SCREEN_LENGTH / 2, 10))
         my_slider = Sprite(source='pictures/slider.png')
         my_meteorites = Meteorites(center_x, center_y)
+
+        return [game_background, my_rocket, my_slider, my_meteorites]
+
+    def get_level_2_run_items(self, center_x, center_y):
+        """
+        Return items for running level 2
+        :return:
+        """
+        # TODO: THIS Needs to be implemented for LEVEL 2 - new items !!!
+        game_background = Background(source='pictures/background_02_800_450.png')
+        my_rocket = Rocket(pos=(screen_const.SCREEN_LENGTH / 2, 10))
+        my_slider = Sprite(source='pictures/slider.png')
+        my_meteorites = MeteoritesLevel2(center_x, center_y)
 
         return [game_background, my_rocket, my_slider, my_meteorites]
 
@@ -161,3 +228,16 @@ class Menu:
         main_menu_b.size = (120, 60)
 
         return [menu_background, levels_l, main_menu_b, [level_1_b, level_2_b, level_3_b]]
+
+    def get_run_game_items(self, center_x, center_y):
+        """
+        Return items for run engine
+        :return:
+        """
+        game_background = Background(source='pictures/background_02_800_450.png')
+        my_rocket = Rocket(pos=(screen_const.SCREEN_LENGTH / 2, 10))
+        my_slider = Sprite(source='pictures/slider.png')
+
+        my_meteorites = Meteorites(center_x, center_y)
+
+        return [game_background, my_rocket, my_slider, my_meteorites]

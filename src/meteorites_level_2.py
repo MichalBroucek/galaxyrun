@@ -2,44 +2,22 @@ __author__ = 'brouk'
 
 from src.meteorit import Meteorit
 
-# TODO: Need to update size of Meteorites
-# Looks like there is collision even when rocket is OFF meteorite
+# TODO: this is only for testing level 2
+# FIXME: THIS needs to be written for new level 2 !!!
 
 # Initial [x_offset, y_offset] for individual meteorites
 INITIAL_POS_OFFSETS = [
-    # todo: 2 meteorites just for test
-    [30, 1000],
-    [50, 1300],
+    [30, 300],
+    [200, 300],
 
-    # [50, 300],
-    # [200, 450],
-    #
-    # [0, 700],
-    # [-130, 800],
-    # [-330, 820],
-    #
-    # [-400, 1200],
-    # [220, 1000],
-    #
-    # [-300, 1400],
-    # [100, 1150],
-    # [-200, 1570],
-    # [50, 1350],
-    # [0, 1620],
-    #
-    # [220, 1900],
-    # [90, 2000],
-    # [-50, 2100],
-    # [-150, 2250],
-    #
-    # [-390, 2450],
-    # [-250, 2600],
-    # [-100, 2750],
-    # [200, 2850]
+    [30, 700],
+    [200, 800],
+    [250, 820],
+
 ]
 
 
-class Meteorites:
+class MeteoritesLevel2:
     """
     Generate list of meteorites and update all of them
     """

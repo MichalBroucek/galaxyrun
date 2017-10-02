@@ -11,13 +11,13 @@ class TestLevelPersistence(unittest.TestCase):
     def setUp(self):
         """ Setting up for the test - setup default Level = 1"""
         persis = level_persistance.Persistence()
-        persis.save_level(1)
+        persis.write_level(1)
 
     # ending the test ... run after each test method
     def tearDown(self):
         """Cleaning up after the test - setup default Level = 1"""
         persis = level_persistance.Persistence()
-        persis.save_level(1)
+        persis.write_level(1)
 
     def test_read_level_default_valid(self):
         persis = level_persistance.Persistence()
@@ -26,7 +26,7 @@ class TestLevelPersistence(unittest.TestCase):
 
     def test_read_level_valid(self):
         persis = level_persistance.Persistence()
-        persis.save_level(2)
+        persis.write_level(2)
         level_two = persis.read_level()
         self.assertEqual(level_two, 2, msg='Expected read level isn\'t 2 !')
 
@@ -48,7 +48,7 @@ class TestLevelPersistence(unittest.TestCase):
 
     def test_write_level_valid(self):
         persis = level_persistance.Persistence()
-        persis.save_level(3)
+        persis.write_level(3)
 
     def __delete_persistence_file(self, persistence_store):
         """

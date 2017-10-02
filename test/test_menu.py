@@ -47,7 +47,7 @@ class TestMenu(unittest.TestCase):
         Test Run Game menu items
         """
         main_menu = menu.Menu()
-        game_background, my_rocket, my_slider, my_meteorites = main_menu.get_run_game_items(100, 30)
+        game_background, my_rocket, my_slider, my_meteorites = main_menu.get_level_1_run_items(100, 30)
         self.assertTrue(isinstance(game_background, Background), msg='\'Game Background\' isn\'t instance of Background !')
         self.assertTrue(isinstance(my_rocket, rocket.Rocket), msg='\'Game Rocket\' doesn\'t exist in game run window !')
         self.assertTrue(isinstance(my_slider, Sprite), msg='\'Slider\' doesn\'t exist in game run window !')

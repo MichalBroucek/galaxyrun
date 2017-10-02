@@ -13,6 +13,8 @@ from kivy.storage.jsonstore import JsonStore
 class Persistence:
     """
     Class for read/write persistence level value
+    read_level() - return current level from storage (JSON file)
+
     """
 
     def __init__(self):
@@ -39,7 +41,7 @@ class Persistence:
 
         return current_level
 
-    def save_level(self, current_level):
+    def write_level(self, current_level):
         """
         Store current level into JSON file
         :return:
