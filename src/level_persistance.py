@@ -1,10 +1,7 @@
 __author__ = 'brouk'
 
 import numbers
-import os
-
 from kivy.storage.jsonstore import JsonStore
-
 
 # Module to save and read complete modules - to be persistence between game run
 # - Finished level is read when game starts and new level is saved into the file each time when new level is reach

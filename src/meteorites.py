@@ -2,14 +2,20 @@ __author__ = 'brouk'
 
 from src.meteorit import Meteorit
 
-# TODO: Need to update size of Meteorites
-# Looks like there is collision even when rocket is OFF meteorite
+# TODO: Need to update size of Meteorites - make the size dynamic according screen size ?
+# proportion size of the screen ?
 
 # Initial [x_offset, y_offset] for individual meteorites
 INITIAL_POS_OFFSETS = [
     # todo: 2 meteorites just for test
-    [30, 1000],
-    [50, 1300],
+    [300, 300],
+    [300, 400],
+    [300, 500],
+    [300, 600],
+    [300, 700],
+    [300, 800],
+    [300, 900],
+    #[50, 1300],
 
     # [50, 300],
     # [200, 450],
