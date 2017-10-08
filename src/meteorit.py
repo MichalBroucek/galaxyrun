@@ -2,6 +2,11 @@ __author__ = 'brouk'
 
 from sprite import Sprite
 
+# todo: Collision coordinates has to be fixed !
+# Meteorite size is dynamic now and depends on screen size ! - abs. value needs to be parametrized  
+
+FRACTION_SCREEN_SIZE = 1.0 / 5.0       # 1/5 of the actual game screen
+
 COLLISION_BOTTOM_BOTTOM_OFFSET = 15
 COLLISION_BOTTOM_TOP_OFFSET = 65
 COLLISION_BOTTOM_LEFT_OFFSET = 85
@@ -29,8 +34,9 @@ class Meteorit(Sprite):
     """
     Meteorite which can fly throw screen and collide with Rocket object
     """
-    def __init__(self, source, pos):
-        super(Meteorit, self).__init__(source=source, pos=pos)
+    def __init__(self, source, offset_possition):
+        super(Meteorit, self).__init__(source=source, allow_stretch=True)
+        self.offset_x, self.offset_y = offset_possition
 
     def update(self):
         #self.center_y -= 7

@@ -2,20 +2,17 @@ __author__ = 'brouk'
 
 from src.meteorit import Meteorit
 
-# TODO: Need to update size of Meteorites - make the size dynamic according screen size ?
-# proportion size of the screen ?
+# TODO !!! Need to update collision mechanism as size of individual meteorites is dynamic according screen size now
+
 
 # Initial [x_offset, y_offset] for individual meteorites
 INITIAL_POS_OFFSETS = [
-    # todo: 2 meteorites just for test
-    [300, 300],
-    [300, 400],
-    [300, 500],
-    [300, 600],
-    [300, 700],
-    [300, 800],
-    [300, 900],
-    #[50, 1300],
+    # todo: meteorites just for test
+    [0.1, 0.5],
+    [0.2, 0.6],
+    [0.3, 0.7],
+    [0.4, 0.8],
+    [0.5, 0.9],
 
     # [50, 300],
     # [200, 450],
@@ -49,10 +46,10 @@ class Meteorites:
     """
     Generate list of meteorites and update all of them
     """
-    def __init__(self, center_x, center_y):
+    def __init__(self):
         self.meteorites = []
         for meteorite_pos in INITIAL_POS_OFFSETS:
-            meteorite = Meteorit(source='pictures/meteor_smaller.png', pos=(center_x + meteorite_pos[0], center_y + meteorite_pos[1]))
+            meteorite = Meteorit(source='pictures/meteor_smaller.png', offset_possition=meteorite_pos)
             self.meteorites.append(meteorite)
 
     def update(self):
