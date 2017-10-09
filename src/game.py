@@ -83,6 +83,8 @@ class Game(Widget):
         for meteorite_obj in self.meteorites.meteorites:
             meteorite_obj.size = (Window.size[0] * meteorit.FRACTION_SCREEN_SIZE, Window.size[1] * meteorit.FRACTION_SCREEN_SIZE)
             meteorite_obj.pos = (Window.size[0] * meteorite_obj.offset_x, Window.size[1] * meteorite_obj.offset_y)
+            print "### Meteorite size: {0} ###".format(meteorite_obj.size)
+
             self.add_widget(meteorite_obj)
         self.__run_update()
 

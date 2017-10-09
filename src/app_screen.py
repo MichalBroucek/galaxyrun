@@ -42,7 +42,6 @@ class AppScreen(FloatLayout):
 
         persis = level_persistance.Persistence()
         self.level = persis.read_level()
-        #print 'Actual LEVEL: ', self.level
 
         self.__activate_menu(None)
 
@@ -117,13 +116,13 @@ class AppScreen(FloatLayout):
 
         self.level_2_b = Button(text='2nd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .5})
         #self.level_2_b.bind(on_press=self.activate_new_game())
-        if self.game.level < 2:
+        if self.level < 2:
             self.level_2_b.disabled = True
         self.add_widget(self.level_2_b)
 
         self.level_3_b = Button(text='3rd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
         #self.level_2_b.bind(on_press=self.activate_new_game())
-        if self.game.level < 3:
+        if self.level < 3:
             self.level_3_b.disabled = True
         self.add_widget(self.level_3_b)
 

@@ -2,25 +2,9 @@ __author__ = 'brouk'
 
 from sprite import Sprite
 
-# todo: Collision coordinates has to be fixed !
-# Meteorite size is dynamic now and depends on screen size ! - abs. value needs to be parametrized  
+# Note: Meteorite size is dynamic now and depends on screen size ! - abs. value needs to be parametrized
 
-FRACTION_SCREEN_SIZE = 1.0 / 5.0       # 1/5 of the actual game screen
-
-COLLISION_BOTTOM_BOTTOM_OFFSET = 15
-COLLISION_BOTTOM_TOP_OFFSET = 65
-COLLISION_BOTTOM_LEFT_OFFSET = 85
-COLLISION_BOTTOM_RIGHT_OFFSET = 110
-
-COLLISION_MIDDLE_BOTTOM_OFFSET = 66
-COLLISION_MIDDLE_TOP_OFFSET = 153
-COLLISION_MIDDLE_LEFT_OFFSET = 25
-COLLISION_MIDDLE_RIGHT_OFFSET = 30
-
-COLLISION_TOP_BOTTOM_OFFSET = 154
-COLLISION_TOP_TOP_OFFSET = 183
-COLLISION_TOP_LEFT_OFFSET = 55
-COLLISION_TOP_RIGHT_OFFSET = 50
+FRACTION_SCREEN_SIZE = 1.0 / 3.0  # 1/3 of the actual game screen
 
 
 def print_coordinates(name, widget):
@@ -34,13 +18,19 @@ class Meteorit(Sprite):
     """
     Meteorite which can fly throw screen and collide with Rocket object
     """
-    def __init__(self, source, offset_possition):
+
+    def __init__(self, source, offset_position):
         super(Meteorit, self).__init__(source=source, allow_stretch=True)
-        self.offset_x, self.offset_y = offset_possition
+        self.offset_x, self.offset_y = offset_position
+        # These are updated once Meteorites are added into screen (size of Meteorites is dynamic and so
+        # collision coordinates)
+        self.bottom_bottom, self.bottom_top, self.bottom_x, self.bottom_right = [0, 0, 0, 0]
+        self.middle_bottom, self.middle_top, self.middle_x, self.middle_right = [0, 0, 0, 0]
+        self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
     def update(self):
-        #self.center_y -= 7
-        self.center_y -= 3
+        self.center_y -= 7
+        #self.center_y -= 5
         # TODO: check if meteorit is out of window and re-set Y coordinates if yes
 
     def collide_meteorit(self, wid):
@@ -77,13 +67,11 @@ class Meteorit(Sprite):
         :param wid: widget to collide with
         :return: True if collision happens
         """
-        bottom_bottom = self.y + COLLISION_BOTTOM_BOTTOM_OFFSET
-        bottom_top = self.y + COLLISION_BOTTOM_TOP_OFFSET
-        bottom_x = self.x + COLLISION_BOTTOM_LEFT_OFFSET
-        bottom_right = self.right - COLLISION_BOTTOM_RIGHT_OFFSET
+        # Has to be calculated here as it depends on meteorite position
+        self.bottom_bottom, self.bottom_top, self.bottom_x, self.bottom_right = self.__get_bottom_borders()
 
-        if bottom_bottom <= wid.top <= bottom_top:
-            if bottom_right >= wid.x and bottom_x <= wid.right:
+        if self.bottom_bottom <= wid.top <= self.bottom_top:
+            if wid.right >= self.bottom_x and wid.x <= self.bottom_right:
                 return True
 
         return False
@@ -94,13 +82,11 @@ class Meteorit(Sprite):
         :param wid: widget to collide with
         :return: True if collision happens
         """
-        middle_bottom = self.y + COLLISION_MIDDLE_BOTTOM_OFFSET     # 1 px bigger than bottom_top
-        middle_top = self.y + COLLISION_MIDDLE_TOP_OFFSET
-        middle_x = self.x + COLLISION_MIDDLE_LEFT_OFFSET
-        middle_right = self.right - COLLISION_MIDDLE_RIGHT_OFFSET
+        # Has to be calculated here as it depends on meteorite position
+        self.middle_bottom, self.middle_top, self.middle_x, self.middle_right = self.__get_middle_borders()
 
-        if middle_bottom <= wid.top <= middle_top:
-            if middle_right >= wid.x and middle_x <= wid.right:
+        if self.middle_bottom <= wid.top <= self.middle_top:
+            if self.middle_right >= wid.x and self.middle_x <= wid.right:
                 return True
 
         return False
@@ -111,13 +97,65 @@ class Meteorit(Sprite):
         :param wid:
         :return:
         """
-        top_bottom = self.y + COLLISION_TOP_BOTTOM_OFFSET
-        top_top = self.y + COLLISION_TOP_TOP_OFFSET
-        top_x = self.x + COLLISION_TOP_LEFT_OFFSET
-        top_right = self.right - COLLISION_TOP_RIGHT_OFFSET
+        # Has to be calculated here as it depends on meteorite position
+        self.top_bottom, self.top_top, self.top_x, self.top_right = self.__get_top_borders()
 
-        if top_bottom <= wid.top and wid.y <= top_top:
-            if top_right >= wid.x and top_x <= wid.right:
+        if self.top_bottom <= wid.top and wid.y <= self.top_top:
+            if self.top_right >= wid.x and self.top_x <= wid.right:
                 return True
 
         return False
+
+    def __get_bottom_borders(self):
+        """
+        Return borders for collision in bottom part
+        There is overlap for crashing with meteorite
+        :return:
+        """
+        COLLISION_BOTTOM_BOTTOM_OFFSET = 0.3    # (0.25) * size[1]
+        COLLISION_BOTTOM_TOP_OFFSET = 0.45      # (0.65) * size[1]
+        COLLISION_BOTTOM_LEFT_OFFSET = 0.4      # (0.4) * size[0]
+        COLLISION_BOTTOM_RIGHT_OFFSET = 0.55     # (0.5) * size[0]
+
+        bottom_bottom = self.y + (self.size[1] * COLLISION_BOTTOM_BOTTOM_OFFSET)
+        bottom_top = self.y + (self.size[1] * COLLISION_BOTTOM_TOP_OFFSET)
+        bottom_x = self.x + (self.size[0] * COLLISION_BOTTOM_LEFT_OFFSET)
+        bottom_right = self.right - (self.size[0] * COLLISION_BOTTOM_RIGHT_OFFSET)
+
+        return [bottom_bottom, bottom_top, bottom_x, bottom_right]
+
+    def __get_middle_borders(self):
+        """
+        Return borders for collision in middle part
+        There is overlap for crashing with meteorite
+        :return:
+        """
+        COLLISION_MIDDLE_BOTTOM_OFFSET = 0.45
+        COLLISION_MIDDLE_TOP_OFFSET = 0.75
+        COLLISION_MIDDLE_LEFT_OFFSET = 0.33
+        COLLISION_MIDDLE_RIGHT_OFFSET = 0.35
+
+        middle_bottom = self.y + (self.size[1] * COLLISION_MIDDLE_BOTTOM_OFFSET)
+        middle_top = self.y + (self.size[1] * COLLISION_MIDDLE_TOP_OFFSET)
+        middle_x = self.x + (self.size[0] * COLLISION_MIDDLE_LEFT_OFFSET)
+        middle_right = self.right - (self.size[0] * COLLISION_MIDDLE_RIGHT_OFFSET)
+
+        return [middle_bottom, middle_top, middle_x, middle_right]
+
+    def __get_top_borders(self):
+        """
+        Return borders for collision in top part
+        There is overlap for crashing with meteorite
+        :return:
+        """
+        COLLISION_TOP_BOTTOM_OFFSET = 0.75
+        COLLISION_TOP_TOP_OFFSET = 0.9
+        COLLISION_TOP_LEFT_OFFSET = 0.45
+        COLLISION_TOP_RIGHT_OFFSET = 0.45
+
+        top_bottom = self.y + (self.size[1] * COLLISION_TOP_BOTTOM_OFFSET)
+        top_top = self.y + (self.size[1] * COLLISION_TOP_TOP_OFFSET)
+        top_x = self.x + (self.size[0] * COLLISION_TOP_LEFT_OFFSET)
+        top_right = self.right - (self.size[0] * COLLISION_TOP_RIGHT_OFFSET)
+
+        return [top_bottom, top_top, top_x, top_right]
