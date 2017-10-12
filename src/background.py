@@ -8,15 +8,15 @@ class Background(Sprite):
     """
     Moving background
     """
-    def __init__(self, source):
+    def __init__(self, picture):
         super(Background, self).__init__()
 
-        self.image = Sprite(source=source)
+        self.image = Sprite(source=picture)
         self.image.allow_stretch = True
         self.image.size = Window.size
         self.add_widget(self.image)
 
-        self.image_dupe = Sprite(source=source, y=self.image.height)      # Orig.
+        self.image_dupe = Sprite(source=picture, y=self.image.height)      # Orig.
         self.image_dupe.allow_stretch = True
         self.image_dupe.size = Window.size
         self.add_widget(self.image_dupe)

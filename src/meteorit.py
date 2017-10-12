@@ -29,7 +29,7 @@ class Meteorit(Sprite):
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
     def update(self):
-        self.center_y -= 7
+        self.center_y -= 13
         #self.center_y -= 5
         # TODO: check if meteorit is out of window and re-set Y coordinates if yes
 
@@ -112,8 +112,8 @@ class Meteorit(Sprite):
         There is overlap for crashing with meteorite
         :return:
         """
-        COLLISION_BOTTOM_BOTTOM_OFFSET = 0.3    # (0.25) * size[1]
-        COLLISION_BOTTOM_TOP_OFFSET = 0.45      # (0.65) * size[1]
+        COLLISION_BOTTOM_BOTTOM_OFFSET = 0.1    # (0.25) * size[1]
+        COLLISION_BOTTOM_TOP_OFFSET = 0.35      # (0.65) * size[1]
         COLLISION_BOTTOM_LEFT_OFFSET = 0.4      # (0.4) * size[0]
         COLLISION_BOTTOM_RIGHT_OFFSET = 0.55     # (0.5) * size[0]
 
@@ -130,7 +130,7 @@ class Meteorit(Sprite):
         There is overlap for crashing with meteorite
         :return:
         """
-        COLLISION_MIDDLE_BOTTOM_OFFSET = 0.45
+        COLLISION_MIDDLE_BOTTOM_OFFSET = 0.35
         COLLISION_MIDDLE_TOP_OFFSET = 0.75
         COLLISION_MIDDLE_LEFT_OFFSET = 0.33
         COLLISION_MIDDLE_RIGHT_OFFSET = 0.35

@@ -24,8 +24,9 @@ class Rocket(Sprite):
     """
     Rocket
     """
-    def __init__(self, pos):
-        super(Rocket, self).__init__(source=ROCKET_PNG, pos=pos)
+    def __init__(self, picture=ROCKET_PNG):
+        super(Rocket, self).__init__(source=picture)
+        self.allow_stretch = True
         self.new_collision_detected = False            # Why it's needed
         self.collision_in_progress = False
         self.collision_complete = False
@@ -44,7 +45,6 @@ class Rocket(Sprite):
         Clock.schedule_once(self.__set_explosion_5, 0.4)
         Clock.schedule_once(self.__set_explosion_6, 0.5)
         Clock.schedule_once(self.__set_explosion_7, 0.6)
-        #Clock.schedule_once(self.__set_default_color, 1)
 
     def __set_default_color(self, dt):
         self.source = ROCKET_PNG
@@ -74,17 +74,13 @@ class Rocket(Sprite):
 
     def __set_explosion_4(self, dt):
         self.source = EXPLOSION_4
-        self.size = (60, 70)
 
     def __set_explosion_5(self, dt):
         self.source = EXPLOSION_5
-        self.size = (60, 70)
 
     def __set_explosion_6(self, dt):
         self.source = EXPLOSION_6
-        self.size = (60, 70)
 
     def __set_explosion_7(self, dt):
         self.source = EXPLOSION_7
-        self.size = (60, 70)
         self.collision_complete = True

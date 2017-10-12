@@ -18,8 +18,8 @@ class Game(Widget):
         self.game_screen = screen_ref
         self.level = screen_ref.level
 
-        self.game_background = Background(source='pictures/background_02_800_450.png')
-        self.rocket = Rocket(pos=(self.center_x / 2, 10))
+        self.game_background = Background(picture='pictures/background_02_800_450.png')
+        self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
         self.slider = Sprite(source='pictures/slider.png')
         self.meteorites = Meteorites()
 
@@ -42,6 +42,7 @@ class Game(Widget):
 
         if self.rocket.new_collision_detected:          # Activate collision process on new collision
             self.rocket.activate_explosion()
+            return
 
         if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
             return
@@ -72,13 +73,15 @@ class Game(Widget):
         """
         self.clear_widgets()
 
-        self.rocket.pos = (self.size[0] / 2, self.size_hint_y + 60)
         self.add_widget(self.game_background)
-        self.add_widget(self.rocket)
 
-        self.slider.pos = (self.x, self.y + 2)
-        self.slider.size = (self.right, 50)
+        self.slider.pos = (1, 1)
+        self.slider.size = (Window.size[0], Window.size[1] * 0.08)
         self.add_widget(self.slider)
+
+        self.rocket.size = (Window.size[0] * 0.1, Window.size[1] * 0.1)
+        self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.2 * self.slider.top)
+        self.add_widget(self.rocket)
 
         for meteorite_obj in self.meteorites.meteorites:
             meteorite_obj.size = (Window.size[0] * meteorit.FRACTION_SCREEN_SIZE, Window.size[1] * meteorit.FRACTION_SCREEN_SIZE)
