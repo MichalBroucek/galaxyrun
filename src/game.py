@@ -20,7 +20,7 @@ class Game(Widget):
 
         self.game_background = Background(picture='pictures/background_02_800_450.png')
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
-        self.slider = Sprite(source='pictures/slider.png')
+        self.slider = Sprite(source='pictures/swiper.png')
         self.meteorites = Meteorites()
 
     def __run_update(self):
@@ -76,11 +76,11 @@ class Game(Widget):
         self.add_widget(self.game_background)
 
         self.slider.pos = (1, 1)
-        self.slider.size = (Window.size[0], Window.size[1] * 0.08)
+        self.slider.size = (Window.size[0], Window.size[1] * 0.1)
         self.add_widget(self.slider)
 
         self.rocket.size = (Window.size[0] * 0.1, Window.size[1] * 0.1)
-        self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.2 * self.slider.top)
+        self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.4 * self.slider.top)
         self.add_widget(self.rocket)
 
         for meteorite_obj in self.meteorites.meteorites:

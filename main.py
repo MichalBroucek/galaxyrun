@@ -14,7 +14,7 @@ from src.app_screen import AppScreen
 # 1) Add 'Game over' screen
 # 2) Add '1st level done' - screen -
 # 5) Check persistence (for levels) - it it's working ?
-# 6) Improve collision detection !!!
+# DONE # 6) Improve collision detection !!!
 # 7) Make speed parametrized - the same speed for different displays !
 # 8) Make option to chose different speed ! slow, medium, fast ! - but all will be reasonable fast :-)
 # 9) Add 2nd level !

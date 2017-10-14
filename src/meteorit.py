@@ -29,8 +29,8 @@ class Meteorit(Sprite):
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
     def update(self):
-        self.center_y -= 13
-        #self.center_y -= 5
+        #self.center_y -= 13
+        self.center_y -= 5
         # TODO: check if meteorit is out of window and re-set Y coordinates if yes
 
     def collide_meteorit(self, wid):
