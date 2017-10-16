@@ -10,8 +10,8 @@ from src.app_screen import AppScreen
 
 
 # TODO:
-# 0) Add more unittests !!!
-# 1) Add 'Game over' screen
+# 0) Re-write unittests !!!
+# DONE # 1) Add 'Game over' screen
 # 2) Add '1st level done' - screen -
 # 5) Check persistence (for levels) - it it's working ?
 # DONE # 6) Improve collision detection !!!

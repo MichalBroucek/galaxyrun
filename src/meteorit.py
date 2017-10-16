@@ -6,7 +6,6 @@ from sprite import Sprite
 
 FRACTION_SCREEN_SIZE = 1.0 / 3.0  # 1/3 of the actual game screen
 
-
 def print_coordinates(name, widget):
     print "{0}.x={1}".format(name, widget.x)
     print "{0}.right={1}".format(name, widget.right)
@@ -28,10 +27,11 @@ class Meteorit(Sprite):
         self.middle_bottom, self.middle_top, self.middle_x, self.middle_right = [0, 0, 0, 0]
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
+        self.speed = 5
+        #self.speed = 13
+
     def update(self):
-        #self.center_y -= 13
-        self.center_y -= 5
-        # TODO: check if meteorit is out of window and re-set Y coordinates if yes
+        self.center_y -= self.speed
 
     def collide_meteorit(self, wid):
         """

@@ -2,8 +2,6 @@ __author__ = 'brouk'
 
 from src.meteorit import Meteorit
 
-# TODO !!! Need to update collision mechanism as size of individual meteorites is dynamic according screen size now
-
 
 # Initial [x_offset, y_offset] for individual meteorites
 INITIAL_POS_OFFSETS = [
@@ -41,6 +39,8 @@ INITIAL_POS_OFFSETS = [
     [0.1, 4.25],
 
     [0.4, 4.85]
+
+    # todo: ... add more ...
 ]
 
 
