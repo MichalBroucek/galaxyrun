@@ -8,6 +8,7 @@ from rocket import Rocket
 from sprite import Sprite
 from meteorites import Meteorites
 import meteorit
+import app_screen
 
 from kivy.core.window import Window
 
@@ -17,11 +18,15 @@ class Game(Widget):
         super(Game, self).__init__()
         self.game_screen = screen_ref
         self.level = screen_ref.level
-
-        self.game_background = Background(picture='pictures/background_02_800_450.png')
+        # Make it separate for individual levels 1, 2, 3
+        self.game_background = Background(picture='pictures/background_02_800_450.png',
+                                          # todo: Create new nice picture for last background
+                                          last_background_image='pictures/final_screens/final_1_static.png')
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
         self.slider = Sprite(source='pictures/swiper.png')
         self.meteorites = Meteorites()
+
+        self.last_screen = False
 
     def __run_update(self):
         """
@@ -36,6 +41,15 @@ class Game(Widget):
         self.running_loop.cancel()
 
     def update(self, *ignore):
+
+        if self.last_screen:
+            # If last screen then stop updating background and rocket flies away into another screen :)
+            if self.game_background.image_dupe.y <= 5:
+                self.rocket.y += 5
+
+                if self.rocket.y >= self.game_background.image_dupe.top:
+                    self.__activate_new_level()
+                return
 
         if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
             self.__activate_game_over(None)
@@ -55,7 +69,10 @@ class Game(Widget):
             if meteorite.collide_meteorit(self.rocket):
                 self.rocket.new_collision_detected = True
 
-        # TODO: Add 'LEVEL COMPLETE' screen and open next LEVEL
+        if not self.last_screen:
+            if self.meteorites.is_behind_last(self.rocket.y, self.meteorites.meteorites[-1]):
+                self.game_background.set_last_background()
+                self.last_screen = True
 
     def on_touch_move(self, touch):
         """
@@ -75,7 +92,7 @@ class Game(Widget):
 
         self.add_widget(self.game_background)
 
-        self.slider.pos = (1, 1)
+        self.slider.pos = (0, 0)
         self.slider.size = (Window.size[0], Window.size[1] * 0.1)
         self.add_widget(self.slider)
 
@@ -86,8 +103,6 @@ class Game(Widget):
         for meteorite_obj in self.meteorites.meteorites:
             meteorite_obj.size = (Window.size[0] * meteorit.FRACTION_SCREEN_SIZE, Window.size[1] * meteorit.FRACTION_SCREEN_SIZE)
             meteorite_obj.pos = (Window.size[0] * meteorite_obj.offset_x, Window.size[1] * meteorite_obj.offset_y)
-            print "### Meteorite size: {0} ###".format(meteorite_obj.size)
-
             self.add_widget(meteorite_obj)
         self.__run_update()
 
@@ -99,10 +114,12 @@ class Game(Widget):
         self.__stop_update()
         self.game_screen.get_game_over_menu_items()
 
-    def __activate_new_level(self, event):
+    def __activate_new_level(self):
         """
         Activate new level screeen
         :param event:
         :return:
         """
-        print "New Level was activated ..."
+        self.__stop_update()
+        self.game_screen.level_finnish_screen(self.level)
+

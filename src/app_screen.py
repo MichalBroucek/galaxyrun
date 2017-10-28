@@ -40,8 +40,8 @@ class AppScreen(FloatLayout):
         self.menu_background = None
         self.game = None
 
-        persis = level_persistance.Persistence()
-        self.level = persis.read_level()
+        self.persis = level_persistance.Persistence()
+        self.level = self.persis.read_level()
 
         self.__activate_menu(None)
 
@@ -170,3 +170,50 @@ class AppScreen(FloatLayout):
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .3})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
+
+    def level_finnish_screen(self, level=1):
+        """
+        Level successful screen
+        :return:
+        """
+        self.clear_widgets()
+
+        # Save new level into persistent layer and read it back into actual variable
+        new_level = level + 1
+        self.persis.write_level(new_level)
+        self.level = self.persis.read_level()
+        print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.level)
+
+        # Menu Background
+        self.bckg_image = get_background(picture_path='pictures/menu_background.png')
+        self.add_widget(self.bckg_image)
+
+        message_finnish = '[b]LEVEL  ' + str(level) + '  COMPLETED[/b]'
+        self.level_completed_l = Label(text=message_finnish, markup=True)
+        self.level_completed_l.font_size = 46
+        self.level_completed_l.bold = True
+        self.level_completed_l.color = [0.7, 0.7, 0.7, 0.2]
+        self.level_completed_l.pos_hint = {'x': 0.0, 'y': 0.3}
+        self.add_widget(self.level_completed_l)
+
+        message_activated = "".join(['[b]Level ', str(new_level), ' activated[/b]'])
+        self.level_activated_l = Label(text=message_activated, markup=True)
+        self.level_activated_l.font_size = 46
+        self.level_activated_l.bold = True
+        self.level_activated_l.color = [0.7, 0.7, 0.7, 0.2]
+        self.level_activated_l.pos_hint = {'x': 0.0, 'y': 0.0}
+        self.add_widget(self.level_activated_l)
+
+        # Play New level button
+        button_label = "".join(['Play Level ', str(new_level)])
+        self.new_level_b = Button(text=button_label, font_size=22, size_hint=(.20, .15), pos_hint={'x': .2, 'y': .2})
+        # todo:  Add proper function here ...
+        #self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.new_level_b)
+
+        # Main menu button
+        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .2})
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+        print "Now new LEVEL screen is shown ..."

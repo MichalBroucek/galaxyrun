@@ -13,6 +13,9 @@ from src.app_screen import AppScreen
 # 0) Re-write unittests !!!
 # DONE # 1) Add 'Game over' screen
 # 2) Add '1st level done' - screen -
+    # 2.1) Create nice new background for last 2 screens
+    # 2.1) Add missing rocket efect for last screen (make it smaller ? or fly away ?)
+    # 2.2) Add level successfully finnished screen
 # 5) Check persistence (for levels) - it it's working ?
 # DONE # 6) Improve collision detection !!!
 # 7) Make speed parametrized - the same speed for different displays !

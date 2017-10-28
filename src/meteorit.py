@@ -27,8 +27,8 @@ class Meteorit(Sprite):
         self.middle_bottom, self.middle_top, self.middle_x, self.middle_right = [0, 0, 0, 0]
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
-        self.speed = 5
-        #self.speed = 13
+        #self.speed = 3      # todo: change speed here according screen size ?
+        self.speed = 13
 
     def update(self):
         self.center_y -= self.speed
