@@ -41,7 +41,7 @@ class AppScreen(FloatLayout):
         self.game = None
 
         self.persis = level_persistance.Persistence()
-        self.level = self.persis.read_level()
+        self.max_active_level = self.persis.read_level()
 
         self.__activate_menu(None)
 
@@ -87,7 +87,19 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game()
+        self.game.run_game(1)
+
+    def activate_level_2_game(self, event):
+        """
+        Activate Game for Level 2
+        :param event:
+        :return:
+        """
+        self.clear_widgets()
+        self.game = Game(self)
+        self.game.size = self.size
+        self.add_widget(self.game)
+        self.game.run_game(2)
 
     def activate_levels(self, event):
         """
@@ -115,14 +127,14 @@ class AppScreen(FloatLayout):
         self.add_widget(self.level_1_b)
 
         self.level_2_b = Button(text='2nd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .5})
-        #self.level_2_b.bind(on_press=self.activate_new_game())
-        if self.level < 2:
+        self.level_2_b.bind(on_press=self.activate_level_2_game)
+        if self.max_active_level < 2:
             self.level_2_b.disabled = True
         self.add_widget(self.level_2_b)
 
         self.level_3_b = Button(text='3rd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
         #self.level_2_b.bind(on_press=self.activate_new_game())
-        if self.level < 3:
+        if self.max_active_level < 3:
             self.level_3_b.disabled = True
         self.add_widget(self.level_3_b)
 
@@ -137,10 +149,6 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
-        # new_level = 1
-        # print 'Saving LEVEL: ', new_level
-        # level_persistance.save_level(new_level)
-        print "Bye bye ..."
         App.get_running_app().stop()
 
     def get_game_over_menu_items(self):
@@ -180,9 +188,11 @@ class AppScreen(FloatLayout):
 
         # Save new level into persistent layer and read it back into actual variable
         new_level = level + 1
-        self.persis.write_level(new_level)
-        self.level = self.persis.read_level()
-        print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.level)
+
+        if new_level > self.max_active_level:
+            self.persis.write_level(new_level)
+            self.max_active_level = self.persis.read_level()
+            print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.max_active_level)
 
         # Menu Background
         self.bckg_image = get_background(picture_path='pictures/menu_background.png')
