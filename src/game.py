@@ -20,7 +20,7 @@ class Game(Widget):
         # Make it separate for individual levels 1, 2, 3
         self.game_background = self.__get_background_for_game()
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
-        self.slider = Sprite(source='pictures/swiper.png')
+        self.slider = Sprite(source='pictures/swiper_small.png', allow_stretch=True)
         self.obstacles = self.__get_obstacles_for_game()
         self.last_screen = False
 
@@ -67,8 +67,8 @@ class Game(Widget):
 
         self.add_widget(self.game_background)
 
-        self.slider.pos = (0, 0)
         self.slider.size = (Window.size[0], Window.size[1] * 0.1)
+        self.slider.pos = (0, 0)
         self.add_widget(self.slider)
 
         self.rocket.size = (Window.size[0] * 0.1, Window.size[1] * 0.1)
