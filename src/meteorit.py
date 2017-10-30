@@ -28,7 +28,7 @@ class Meteorit(Sprite):
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
         #self.speed = 3      # todo: change speed here according screen size ?
-        self.speed = 17
+        self.speed = 19
 
     def update(self):
         self.center_y -= self.speed
@@ -40,15 +40,15 @@ class Meteorit(Sprite):
         # There are 3 different parts (on 'y' axis) with different 'x' and 'rights' where we detect collisions
         # 3 different rectangles for collision detection are used
         if self.__collide_with_bottom(wid):
-            print "BOTTOM Collision ... Collision ... Collision ... Collision ..."
+            #print "BOTTOM Collision ... Collision ... Collision ... Collision ..."
             return True
         # Detect collision than in middle part (middle rectangle)
         elif self.__collide_with_middle(wid):
-            print "MIDDLE Collision ... Collision ... Collision ... Collision ..."
+            #print "MIDDLE Collision ... Collision ... Collision ... Collision ..."
             return True
         # Detect collision in top part (top rectangle)
         if self.__collide_with_top(wid):
-            print "TOP Collision ... Collision ... Collision ... Collision ..."
+            #print "TOP Collision ... Collision ... Collision ... Collision ..."
             return True
 
         return False

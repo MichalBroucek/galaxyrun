@@ -18,9 +18,9 @@ class Game(Widget):
         self.game_screen = screen_ref
         self.running_level = 1          # todo: 1 as default ?
         # Make it separate for individual levels 1, 2, 3
-        self.game_background = self.__get_background_for_game()
+        self.game_backgrounds = self.__get_background_for_game()
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
-        self.slider = Sprite(source='pictures/swiper_small.png', allow_stretch=True)
+        self.slider = Sprite(source='pictures/swiper.png', allow_stretch=True)
         self.obstacles = self.__get_obstacles_for_game()
         self.last_screen = False
 
@@ -39,8 +39,10 @@ class Game(Widget):
     def update(self, *ignore):
         if self.running_level == 1:
             self.__update_first_level()
+            pass
         if self.running_level == 2:
             self.__update_second_level()
+            pass
 
     def on_touch_move(self, touch):
         """
@@ -62,10 +64,13 @@ class Game(Widget):
         self.running_level = game_level
 
         # Setup Game background and obstacles for current level
-        self.game_background = self.__get_background_for_game()
+        self.game_backgrounds = self.__get_background_for_game()
+        self.add_widget(self.game_backgrounds.image)
+        self.add_widget(self.game_backgrounds.image_dupe)
+
         self.obstacles = self.__get_obstacles_for_game()
 
-        self.add_widget(self.game_background)
+        self.add_widget(self.game_backgrounds)
 
         self.slider.size = (Window.size[0], Window.size[1] * 0.1)
         self.slider.pos = (0, 0)
@@ -104,10 +109,12 @@ class Game(Widget):
         if self.running_level == 1:
             return Background(picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
-        elif self.running_level:
+        elif self.running_level == 2:
             return Background(picture='pictures/game_backgrounds/bckg_level_2.png',
+                                        #todo: Make new final screen for level 2
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 3:
+            #todo: make new background and final screen for level 3
             return Background(picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         else:
@@ -136,10 +143,10 @@ class Game(Widget):
         """
         if self.last_screen:
             # If last screen then stop updating background and rocket flies away into another screen :)
-            if self.game_background.image_dupe.y <= 5:
+            if self.game_backgrounds.image_dupe.y <= 5:
                 self.rocket.y += 5
 
-                if self.rocket.y >= self.game_background.image_dupe.top:
+                if self.rocket.y >= self.game_backgrounds.image_dupe.top:
                     self.__activate_new_level()
                 return
 
@@ -154,7 +161,7 @@ class Game(Widget):
             return
 
         if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
-            self.game_background.update()
+            self.game_backgrounds.update()
             self.obstacles.update()
 
         for meteorite in self.obstacles.meteorites:    # Check for collision and setup rocket collision flag
@@ -163,7 +170,7 @@ class Game(Widget):
 
         if not self.last_screen:
             if self.obstacles.is_behind_last(self.rocket.y, self.obstacles.meteorites[-1]):
-                self.game_background.set_last_background()
+                self.game_backgrounds.set_last_background()
                 self.last_screen = True
 
     # todo: Make update function somehow generic for all 3 levels if possible - but don't spend to much time on it now
@@ -174,10 +181,10 @@ class Game(Widget):
         """
         if self.last_screen:
             # If last screen then stop updating background and rocket flies away into another screen :)
-            if self.game_background.image_dupe.y <= 5:
+            if self.game_backgrounds.image_dupe.y <= 5:
                 self.rocket.y += 5
 
-                if self.rocket.y >= self.game_background.image_dupe.top:
+                if self.rocket.y >= self.game_backgrounds.image_dupe.top:
                     self.__activate_new_level()
                 return
 
@@ -192,7 +199,7 @@ class Game(Widget):
             return
 
         if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
-            self.game_background.update()
+            self.game_backgrounds.update()
             #self.obstacles.update()
 
         # for meteorite in self.obstacles.meteorites:    # Check for collision and setup rocket collision flag

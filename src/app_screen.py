@@ -225,5 +225,3 @@ class AppScreen(FloatLayout):
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .2})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
-
-        print "Now new LEVEL screen is shown ..."

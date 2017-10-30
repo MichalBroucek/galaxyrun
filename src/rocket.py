@@ -1,7 +1,6 @@
 __author__ = 'brouk'
 
 from kivy.clock import Clock
-
 from sprite import Sprite
 
 ROCKET_PNG = "pictures/rocket_01_40x69.png"
@@ -19,7 +18,7 @@ class Rocket(Sprite):
     def __init__(self, picture=ROCKET_PNG):
         super(Rocket, self).__init__(source=picture)
         self.allow_stretch = True
-        self.new_collision_detected = False            # Why it's needed
+        self.new_collision_detected = False
         self.collision_in_progress = False
         self.collision_complete = False
         self.explosion_step = 0

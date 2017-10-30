@@ -64,7 +64,6 @@ INITIAL_POS_OFFSETS = [
     [0.15, 7.65],
     [0.7, 7.69]
 
-    # todo: ... add more ...
 ]
 
 
@@ -80,7 +79,7 @@ class Meteorites:
 
     def update(self):
         """
-        Update possitions of all meterorites
+        Update positions of all meteorites
         :return:
         """
         for meteorite in self.meteorites:
@@ -95,6 +94,4 @@ class Meteorites:
         """
         offset_y = last_meteorite.size[1] * 3
         last_y = last_meteorite.y + last_meteorite.size[1] + offset_y
-        print "ooo Actual y: {0}".format(current_y)
-        print "ooo Last_y y: {0}".format(last_y)
         return current_y > last_y
