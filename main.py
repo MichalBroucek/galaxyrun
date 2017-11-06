@@ -1,5 +1,8 @@
 #!/usr/bin/env python2
 from kivy.config import Config
+Config.set('graphics', 'fullscreen', 'auto')
+Config.set('graphics', 'borderless', '1')
+Config.set('graphics', 'resizable', '0')
 
 __author__ = 'brouk'
 
@@ -34,7 +37,9 @@ class GameApp(App):
         return appScreen
 
 if __name__ == "__main__":
-    Window.fullscreen = 'auto'
-    Config.set('graphics', 'fullscreen', 'auto')
-    print 'Window size: {0}'.format(Window.size)
+    # Window.fullscreen = 'fake'
+    # Window.borderless = 1
+    # Config.set('graphics', 'fullscreen', 'fake')
+    # Config.set('graphics', 'borderless', '1')
+    #print 'Window size: {0}'.format(Window.size)
     GameApp().run()

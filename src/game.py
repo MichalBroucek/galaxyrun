@@ -20,7 +20,7 @@ class Game(Widget):
         # Make it separate for individual levels 1, 2, 3
         self.game_backgrounds = self.__get_background_for_game()
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
-        self.slider = Sprite(source='pictures/swiper.png', allow_stretch=True)
+        self.slider = Sprite(picture='pictures/swiper.png', allow_stretch=True)
         self.obstacles = self.__get_obstacles_for_game()
         self.last_screen = False
 
@@ -107,18 +107,18 @@ class Game(Widget):
         :return:
         """
         if self.running_level == 1:
-            return Background(picture='pictures/game_backgrounds/bckg_level_1.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 2:
-            return Background(picture='pictures/game_backgrounds/bckg_level_2.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_2.png',
                                         #todo: Make new final screen for level 2
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 3:
             #todo: make new background and final screen for level 3
-            return Background(picture='pictures/game_backgrounds/bckg_level_1.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         else:
-            return Background(picture='pictures/game_backgrounds/bckg_level_1.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
 
     def __get_obstacles_for_game(self):

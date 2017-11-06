@@ -5,17 +5,19 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.app import App
+from kivy.core.window import Window
 from src.game import Game
 import level_persistance
 
 
-def get_background(picture_path='pictures/background_bigger.jpg'):
+def get_background(picture_path='pictures/background_bigger.png'):
     """
     Set and return full screen Image background
     :return:
     """
     bckg_image = Image(source=picture_path)
     bckg_image.allow_stretch = True
+    bckg_image.size = Window.size
     return bckg_image
 
 
@@ -52,7 +54,7 @@ class AppScreen(FloatLayout):
         """
         self.clear_widgets()
 
-        self.bckg_image = get_background()
+        self.bckg_image = get_background(picture_path='pictures/background_bigger.png')
         self.add_widget(self.bckg_image)
 
         # Galaxyrun Label

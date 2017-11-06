@@ -19,7 +19,7 @@ class Meteorit(Sprite):
     """
 
     def __init__(self, source, offset_position):
-        super(Meteorit, self).__init__(source=source, allow_stretch=True)
+        super(Meteorit, self).__init__(picture=source, allow_stretch=True, allow_keep_ratio=True)
         self.offset_x, self.offset_y = offset_position
         # These are updated once Meteorites are added into screen (size of Meteorites is dynamic and so
         # collision coordinates)
@@ -27,8 +27,8 @@ class Meteorit(Sprite):
         self.middle_bottom, self.middle_top, self.middle_x, self.middle_right = [0, 0, 0, 0]
         self.top_bottom, self.top_top, self.top_x, self.top_right = [0, 0, 0, 0]
 
-        #self.speed = 3      # todo: change speed here according screen size ?
-        self.speed = 19
+        #self.speed = 10      # todo: change speed here according screen size ?
+        self.speed = 17
 
     def update(self):
         self.center_y -= self.speed
