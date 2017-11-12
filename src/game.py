@@ -7,7 +7,9 @@ from src.background import Background
 from rocket import Rocket
 from sprite import Sprite
 from meteorites import Meteorites
+from rocks import Rocks
 import meteorit
+import rock
 
 from kivy.core.window import Window
 
@@ -76,7 +78,7 @@ class Game(Widget):
         self.slider.pos = (0, 0)
         self.add_widget(self.slider)
 
-        self.rocket.size = (Window.size[0] * 0.1, Window.size[1] * 0.1)
+        self.rocket.size = (Window.size[0] * 0.03, Window.size[1] * 0.1)
         self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.4 * self.slider.top)
         self.add_widget(self.rocket)
 
@@ -110,7 +112,7 @@ class Game(Widget):
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 2:
-            return Background(background_picture='pictures/game_backgrounds/bckg_level_2.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_2b.png',
                                         #todo: Make new final screen for level 2
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 3:
@@ -130,7 +132,7 @@ class Game(Widget):
         if self.running_level == 1:
             return Meteorites()
         if self.running_level == 2:
-            return None
+            return Rocks()
         elif self.running_level == 3:
             return None
         else:
@@ -200,14 +202,14 @@ class Game(Widget):
 
         if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
             self.game_backgrounds.update()
-            #self.obstacles.update()
+            self.obstacles.update()
 
-        # for meteorite in self.obstacles.meteorites:    # Check for collision and setup rocket collision flag
-        #     if meteorite.collide_meteorit(self.rocket):
-        #         self.rocket.new_collision_detected = True
+        for rock_side in self.obstacles.rocks:    # Check for collision and setup rocket collision flag
+            if rock_side.collide_rock(self.rocket):
+                self.rocket.new_collision_detected = True
 
         # if not self.last_screen:
-        #     if self.obstacles.is_behind_last(self.rocket.y, self.obstacles.meteorites[-1]):
+        #     if self.obstacles.is_behind_last(self.rocket.y, self.obstacles.rocks[-1]):
         #         self.game_background.set_last_background()
         #         self.last_screen = True
 
@@ -222,7 +224,10 @@ class Game(Widget):
                 meteorite_obj.pos = (Window.size[0] * meteorite_obj.offset_x, Window.size[1] * meteorite_obj.offset_y)
                 self.add_widget(meteorite_obj)
         elif self.running_level == 2:
-            self.obstacles = []
+            for rock_obj in self.obstacles.rocks:
+                rock_obj.size = (Window.size[0] * rock.FRACTION_SCREEN_SIZE * 0.4, Window.size[1] * rock.FRACTION_SCREEN_SIZE)
+                rock_obj.pos = (Window.size[0] * rock_obj.offset_x, Window.size[1] * rock_obj.offset_y)
+                self.add_widget(rock_obj)
         elif self.running_level == 3:
             self.obstacles = []
         else:

@@ -16,7 +16,7 @@ class Rocket(Sprite):
     Rocket
     """
     def __init__(self, picture=ROCKET_PNG):
-        super(Rocket, self).__init__(picture=picture, allow_stretch=True, allow_keep_ratio=True)
+        super(Rocket, self).__init__(picture=picture, allow_stretch=True, allow_keep_ratio=False)
         self.new_collision_detected = False
         self.collision_in_progress = False
         self.collision_complete = False

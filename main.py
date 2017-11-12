@@ -7,7 +7,6 @@ Config.set('graphics', 'resizable', '0')
 __author__ = 'brouk'
 
 from kivy.app import App
-from kivy.core.window import Window
 
 from src.app_screen import AppScreen
 
@@ -19,7 +18,7 @@ from src.app_screen import AppScreen
     # DONE # 2.1) Create nice new background for last 2 screens
     # DONE # 2.1) Add missing rocket efect for last screen (make it smaller ? or fly away ?)
     # DONE # 2.2) Add level successfully finnished screen
-# 3) Issue about screens - menu screen is not fullscreen on mobile HW device
+# DONE 3) Issue about screens - menu screen is not fullscreen on mobile HW device
 # DONE # 5) Check persistence (for levels) - it it's working ?
 # DONE # 6) Improve collision detection !!!
 # 7) Make speed parametrized - the same speed for different displays !!!
@@ -37,9 +36,4 @@ class GameApp(App):
         return appScreen
 
 if __name__ == "__main__":
-    # Window.fullscreen = 'fake'
-    # Window.borderless = 1
-    # Config.set('graphics', 'fullscreen', 'fake')
-    # Config.set('graphics', 'borderless', '1')
-    #print 'Window size: {0}'.format(Window.size)
     GameApp().run()
