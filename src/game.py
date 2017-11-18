@@ -8,8 +8,6 @@ from rocket import Rocket
 from sprite import Sprite
 from meteorites import Meteorites
 from rocks import Rocks
-import meteorit
-import rock
 
 from kivy.core.window import Window
 
@@ -39,12 +37,39 @@ class Game(Widget):
         self.running_loop.cancel()
 
     def update(self, *ignore):
-        if self.running_level == 1:
-            self.__update_first_level()
-            pass
-        if self.running_level == 2:
-            self.__update_second_level()
-            pass
+        """
+        Update screens, rockets, meteorites, do checks for collision and everything else
+        :return:
+        """
+        if self.last_screen:
+            # If last screen then stop updating background and rocket flies away into another screen :)
+            if self.game_backgrounds.image_dupe.y <= 5:
+                self.rocket.y += 5
+
+                if self.rocket.y >= self.game_backgrounds.image_dupe.top:
+                    self.__activate_new_level()
+                return
+
+        if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
+            self.__activate_game_over(None)
+
+        if self.rocket.new_collision_detected:          # Activate collision process on new collision
+            self.rocket.activate_explosion()
+            return
+
+        if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
+            return
+
+        if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
+            self.game_backgrounds.update()
+            self.obstacles.update()
+
+        self.rocket.new_collision_detected = self.obstacles.collision_check(self.rocket)
+
+        if not self.last_screen:
+            if self.obstacles.is_behind_last(self.rocket.y):
+                self.game_backgrounds.set_last_background()
+                self.last_screen = True
 
     def on_touch_move(self, touch):
         """
@@ -82,7 +107,7 @@ class Game(Widget):
         self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.4 * self.slider.top)
         self.add_widget(self.rocket)
 
-        self.__add_obstacles_for_game()
+        self.obstacles.add_all_to_widget(self)
 
         self.__run_update()
 
@@ -138,91 +163,13 @@ class Game(Widget):
         else:
             return None
 
-    def __update_first_level(self):
-        """
-        Update screens, rockets, meteorites, do checks for collision and all for 1st level
-        :return:
-        """
-        if self.last_screen:
-            # If last screen then stop updating background and rocket flies away into another screen :)
-            if self.game_backgrounds.image_dupe.y <= 5:
-                self.rocket.y += 5
-
-                if self.rocket.y >= self.game_backgrounds.image_dupe.top:
-                    self.__activate_new_level()
-                return
-
-        if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
-            self.__activate_game_over(None)
-
-        if self.rocket.new_collision_detected:          # Activate collision process on new collision
-            self.rocket.activate_explosion()
-            return
-
-        if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
-            return
-
-        if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
-            self.game_backgrounds.update()
-            self.obstacles.update()
-
-        for meteorite in self.obstacles.meteorites:    # Check for collision and setup rocket collision flag
-            if meteorite.collide_meteorit(self.rocket):
-                self.rocket.new_collision_detected = True
-
-        if not self.last_screen:
-            if self.obstacles.is_behind_last(self.rocket.y, self.obstacles.meteorites[-1]):
-                self.game_backgrounds.set_last_background()
-                self.last_screen = True
-
-    # todo: Make update function somehow generic for all 3 levels if possible - but don't spend to much time on it now
-    def __update_second_level(self):
-        """
-        Update screens, rockets, meteorites, do checks for collision and all for 1st level
-        :return:
-        """
-        if self.last_screen:
-            # If last screen then stop updating background and rocket flies away into another screen :)
-            if self.game_backgrounds.image_dupe.y <= 5:
-                self.rocket.y += 5
-
-                if self.rocket.y >= self.game_backgrounds.image_dupe.top:
-                    self.__activate_new_level()
-                return
-
-        if self.rocket.collision_complete:              # If collision complete -> stop updating and Game over
-            self.__activate_game_over(None)
-
-        if self.rocket.new_collision_detected:          # Activate collision process on new collision
-            self.rocket.activate_explosion()
-            return
-
-        if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
-            return
-
-        if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
-            self.game_backgrounds.update()
-            self.obstacles.update()
-
-        for rock_side in self.obstacles.get_obstacle_list():    # Check for collision and setup rocket collision flag
-            if rock_side.collide(self.rocket):
-                self.rocket.new_collision_detected = True
-
-        # if not self.last_screen:
-        #     if self.obstacles.is_behind_last(self.rocket.y, self.obstacles.rocks[-1]):
-        #         self.game_background.set_last_background()
-        #         self.last_screen = True
-
     def __add_obstacles_for_game(self):
         """
         Add obstacles for current level
         :return:
         """
         if self.running_level == 1:
-            for meteorite_obj in self.obstacles.meteorites:
-                meteorite_obj.size = (Window.size[0] * meteorit.FRACTION_SCREEN_SIZE, Window.size[1] * meteorit.FRACTION_SCREEN_SIZE)
-                meteorite_obj.pos = (Window.size[0] * meteorite_obj.offset_x, Window.size[1] * meteorite_obj.offset_y)
-                self.add_widget(meteorite_obj)
+            self.obstacles.add_all_to_widget(self)
         elif self.running_level == 2:
             self.obstacles.add_all_to_widget(self)
         elif self.running_level == 3:
