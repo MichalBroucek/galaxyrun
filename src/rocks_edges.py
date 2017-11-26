@@ -154,7 +154,7 @@ class Rocks_edges(Obstacles):
     """
 
     def __init__(self):
-        super(Rocks_edges, self).__init__(picture_src='pictures/square_3.png', speed=2, offset_positions=INITIAL_POS_OFFSETS,
+        super(Rocks_edges, self).__init__(picture_src='pictures/square_3.png', speed=5, offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=False)
 
     def add_all_to_widget(self, destination_widget):

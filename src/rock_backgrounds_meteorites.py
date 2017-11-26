@@ -33,7 +33,7 @@ class Rock_background_meteorites(Obstacles):
     """
 
     def __init__(self):
-        super(Rock_background_meteorites, self).__init__(picture_src='pictures/met_small.png', speed=2, offset_positions=INITIAL_POS_OFFSETS,
+        super(Rock_background_meteorites, self).__init__(picture_src='pictures/met_small.png', speed=5, offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=True)
 
     def add_all_to_widget(self, destination_widget):
