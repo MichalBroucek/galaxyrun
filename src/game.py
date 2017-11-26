@@ -7,7 +7,8 @@ from src.background import Background
 from rocket import Rocket
 from sprite import Sprite
 from meteorites import Meteorites
-from rocks import Rocks
+from rocks_edges import Rocks_edges
+from rock_backgrounds_meteorites import Rock_background_meteorites
 
 from kivy.core.window import Window
 
@@ -22,6 +23,8 @@ class Game(Widget):
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
         self.slider = Sprite(picture='pictures/swiper.png', allow_stretch=True)
         self.obstacles = self.__get_obstacles_for_game()
+
+        self.meteorites_background = self.__get_meteorites_background()
         self.last_screen = False
 
     def __run_update(self):
@@ -63,6 +66,8 @@ class Game(Widget):
         if not self.rocket.collision_in_progress:       # Update of MAIN game screen - background & meteorites
             self.game_backgrounds.update()
             self.obstacles.update()
+            if self.meteorites_background:
+                self.meteorites_background.update()
 
         self.rocket.new_collision_detected = self.obstacles.collision_check(self.rocket)
 
@@ -96,8 +101,13 @@ class Game(Widget):
         self.add_widget(self.game_backgrounds.image_dupe)
 
         self.obstacles = self.__get_obstacles_for_game()
+        self.meteorites_background = self.__get_meteorites_background()
 
         self.add_widget(self.game_backgrounds)
+
+        self.obstacles.add_all_to_widget(self)
+        if self.meteorites_background:
+            self.meteorites_background.add_all_to_widget(self)
 
         self.slider.size = (Window.size[0], Window.size[1] * 0.1)
         self.slider.pos = (0, 0)
@@ -106,8 +116,6 @@ class Game(Widget):
         self.rocket.size = (Window.size[0] * 0.03, Window.size[1] * 0.1)
         self.rocket.pos = (self.center_x - self.rocket.size[0] / 2.0, self.y + 1.4 * self.slider.top)
         self.add_widget(self.rocket)
-
-        self.obstacles.add_all_to_widget(self)
 
         self.__run_update()
 
@@ -157,7 +165,7 @@ class Game(Widget):
         if self.running_level == 1:
             return Meteorites()
         if self.running_level == 2:
-            return Rocks()
+            return Rocks_edges()
         elif self.running_level == 3:
             return None
         else:
@@ -176,3 +184,18 @@ class Game(Widget):
             self.obstacles = []
         else:
             pass
+
+    def __get_meteorites_background(self):
+        """
+        Return meteorites which are flying on the background - no crash possible
+        They are just for decoration
+        :return:
+        """
+        if self.running_level == 1:
+            return []
+        if self.running_level == 2:
+            return Rock_background_meteorites()
+        elif self.running_level == 3:
+            return []
+        else:
+            return None
