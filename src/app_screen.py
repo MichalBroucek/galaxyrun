@@ -8,6 +8,7 @@ from kivy.app import App
 from kivy.core.window import Window
 from src.game import Game
 import level_persistance
+from kivy.core.audio import SoundLoader
 
 
 def get_background(picture_path='pictures/background_bigger.png'):
@@ -45,6 +46,11 @@ class AppScreen(FloatLayout):
         self.persis = level_persistance.Persistence()
         self.max_active_level = self.persis.read_level()
 
+        self.sound = True
+        self.music = SoundLoader.load('sound/2001_theme.mp3')
+        self.music.volume = 0.05
+        self.music.loop = True
+
         self.__activate_menu(None)
 
     def __activate_menu(self, event):
@@ -53,6 +59,11 @@ class AppScreen(FloatLayout):
         :return:
         """
         self.clear_widgets()
+
+        self.__play_all_functional()
+
+        if self.sound:
+            self.music.play()
 
         self.bckg_image = get_background(picture_path='pictures/background_bigger.png')
         self.add_widget(self.bckg_image)
@@ -89,7 +100,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(1)
+        self.game.run_game(game_level=1, play_sound=True)
 
     def activate_level_2_game(self, event):
         """
@@ -101,7 +112,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(2)
+        self.game.run_game(game_level=2, play_sound=True)
 
     def activate_levels(self, event):
         """
@@ -227,3 +238,9 @@ class AppScreen(FloatLayout):
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .2})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
+
+    def __play_all_functional(self):
+        functional_mp3 = SoundLoader.load('sound/function.mp3')
+        functional_mp3.volume = 0.05
+        if self.sound and functional_mp3:
+            functional_mp3.play()

@@ -9,7 +9,6 @@ from sprite import Sprite
 from meteorites import Meteorites
 from rocks_edges import Rocks_edges
 from rock_backgrounds_meteorites import Rock_background_meteorites
-from rock_backgrounds import Rock_background
 
 from kivy.core.window import Window
 
@@ -24,11 +23,9 @@ class Game(Widget):
         self.rocket = Rocket(picture='pictures/rocket_01_40x69.png')
         self.slider = Sprite(picture='pictures/swiper.png', allow_stretch=True)
         self.obstacles = self.__get_obstacles_for_game()
-
-        self.rock_background = self.__get_rock_background()
-
         self.meteorites_background = self.__get_meteorites_background()
         self.last_screen = False
+        self.sound = False
 
     def __run_update(self):
         """
@@ -60,7 +57,7 @@ class Game(Widget):
             self.__activate_game_over(None)
 
         if self.rocket.new_collision_detected:          # Activate collision process on new collision
-            self.rocket.activate_explosion()
+            self.rocket.activate_explosion(self.sound)
             return
 
         if self.rocket.collision_in_progress:           # Doesn't update background and other game processes
@@ -71,8 +68,6 @@ class Game(Widget):
             self.obstacles.update()
             if self.meteorites_background:
                 self.meteorites_background.update()
-            if self.rock_background:
-                self.rock_background.update()
 
         self.rocket.new_collision_detected = self.obstacles.collision_check(self.rocket)
 
@@ -90,15 +85,16 @@ class Game(Widget):
         if touch.y < self.slider.top:
             self.rocket.center_x = touch.x
 
-    def run_game(self, game_level):
+    def run_game(self, game_level, play_sound=False):
         """
         Initialize game window setup background, rocket, slider, obstacles and start game update loop
         :return:
         """
         self.clear_widgets()
 
-        # Setup actual running level
-        self.running_level = game_level
+
+        self.running_level = game_level     # Setup actual running level
+        self.sound = play_sound
 
         # Setup Game background and obstacles for current level
         self.game_backgrounds = self.__get_background_for_game()
@@ -106,17 +102,14 @@ class Game(Widget):
         self.add_widget(self.game_backgrounds.image_dupe)
 
         self.obstacles = self.__get_obstacles_for_game()
-        self.rock_background = self.__get_rock_background()
         self.meteorites_background = self.__get_meteorites_background()
 
         self.add_widget(self.game_backgrounds)
 
         self.obstacles.add_all_to_widget(self)
-        if self.rock_background:
-            self.rock_background.add_all_to_widget(self)
         if self.meteorites_background:
             self.meteorites_background.add_all_to_widget(self)
-        
+
         self.slider.size = (Window.size[0], Window.size[1] * 0.1)
         self.slider.pos = (0, 0)
         self.add_widget(self.slider)
@@ -203,20 +196,6 @@ class Game(Widget):
             return []
         if self.running_level == 2:
             return Rock_background_meteorites()
-        elif self.running_level == 3:
-            return []
-        else:
-            return None
-
-    def __get_rock_background(self):
-        """
-        Return rock background: list of Rocks object to fulfil background
-        :return:
-        """
-        if self.running_level == 1:
-            return []
-        if self.running_level == 2:
-            return Rock_background()
         elif self.running_level == 3:
             return []
         else:

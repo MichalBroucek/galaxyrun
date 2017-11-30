@@ -3,6 +3,7 @@ __author__ = 'brouk'
 # import rock
 from obstacles import Obstacles
 from kivy.core.window import Window
+import copy             # For lists
 
 FRACTION_SCREEN_SIZE = 1.0 / 5.0  # 1/3 of the actual game screen
 
@@ -75,6 +76,7 @@ INITIAL_POS_OFFSETS_LEFT_EDGES = [
     [0.49, 6.4]
 ]
 
+
 # Initial [x_offset, y_offset] for individual rock edge on the RIGHT side
 # Coordinates numbers are fraction of screen size - coordinates numbers: [a, b] means:
     # x_coordinate = screen_width * a
@@ -142,10 +144,27 @@ INITIAL_POS_OFFSETS_RIGHT_EDGES = [
     [0.74, 5.95],
     [0.74, 6.1],
     [0.74, 6.25],
-    [0.74, 6.4],
+    [0.74, 6.4]
 ]
 
+# Initial position offset for rocks edges - coordinates for inner rectangle rocks objects - to create 'flight corridor'
 INITIAL_POS_OFFSETS = INITIAL_POS_OFFSETS_LEFT_EDGES + INITIAL_POS_OFFSETS_RIGHT_EDGES
+
+
+def generate_coordinates_with_flags():
+    """
+    Add 'R','L' flags to coordinates - to be able to differ if image will be resizing to the right or left side
+    :return:
+    """
+    positions_with_R_flag = copy.deepcopy(INITIAL_POS_OFFSETS_RIGHT_EDGES)
+    for pos in positions_with_R_flag:
+        pos.append('R')
+
+    positions_with_L_flag = copy.deepcopy(INITIAL_POS_OFFSETS_LEFT_EDGES)
+    for pos in positions_with_L_flag:
+        pos.append('L')
+
+    return positions_with_R_flag + positions_with_L_flag
 
 
 class Rocks_edges(Obstacles):
@@ -156,13 +175,37 @@ class Rocks_edges(Obstacles):
     def __init__(self):
         super(Rocks_edges, self).__init__(picture_src='pictures/square_3.png', speed=5, offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=False)
+        self.initial_pos_offset_with_flags = generate_coordinates_with_flags()
 
     def add_all_to_widget(self, destination_widget):
         """
         Add all obstacles into widget defined as parameter
         :return:
         """
-        for rock_obj in self.get_obstacle_list():
-            rock_obj.size = (Window.size[0] * FRACTION_SCREEN_SIZE * 0.4, Window.size[1] * FRACTION_SCREEN_SIZE)
-            rock_obj.pos = (Window.size[0] * rock_obj.offset_x, Window.size[1] * rock_obj.offset_y)
-            destination_widget.add_widget(rock_obj)
+        for index, pos in enumerate(self.initial_pos_offset_with_flags):
+
+            rock_offset_x = pos[0]
+            rock_offset_y = pos[1]
+            rock_size = 0
+            rock_pos = 0
+
+            if pos[2] == 'R':
+                # Set POSITION and SIZE for RIGHT side rock edges here
+                # rock_x_size = Windows_X_size - x_coordinates
+                rock_x_size = Window.size[0] - Window.size[0] * rock_offset_x
+                rock_size = (rock_x_size, Window.size[1] * FRACTION_SCREEN_SIZE)
+                rock_pos = (Window.size[0] * rock_offset_x, Window.size[1] * rock_offset_y)
+            elif pos[2] == 'L':
+                # Set POSITION and SIZE for LEFT side rock edges here
+                # rock_x_size = x_orig_possition + rock_x_size
+                # rock_x_pos = 0 ... for all right edges possitions
+                rock_x_orig_position = Window.size[0] * rock_offset_x
+                rock_x_abs_size = Window.size[0] * FRACTION_SCREEN_SIZE * 0.4
+                rock_x_size = rock_x_orig_position + rock_x_abs_size
+                rock_size = (rock_x_size, Window.size[1] * FRACTION_SCREEN_SIZE)
+                rock_pos = (0, Window.size[1] * rock_offset_y)
+
+            rock_edge = self.get_obstacle_list()[index]
+            rock_edge.size = rock_size
+            rock_edge.pos = rock_pos
+            destination_widget.add_widget(rock_edge)
