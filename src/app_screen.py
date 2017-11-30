@@ -47,7 +47,7 @@ class AppScreen(FloatLayout):
         self.max_active_level = self.persis.read_level()
 
         self.sound = True
-        self.music = SoundLoader.load('sound/2001_theme.mp3')
+        self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
         self.music.volume = 0.05
         self.music.loop = True
 
