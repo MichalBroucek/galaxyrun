@@ -7,6 +7,7 @@ from kivy.uix.button import Button
 from kivy.app import App
 from kivy.core.window import Window
 from src.game import Game
+from sprite import Sprite
 import level_persistance
 from kivy.core.audio import SoundLoader
 
@@ -20,6 +21,11 @@ def get_background(picture_path='pictures/background_bigger.png'):
     bckg_image.allow_stretch = True
     bckg_image.size = Window.size
     return bckg_image
+
+
+SPEED_SLOW = 7
+SPEED_MEDIUM = 13
+SPEED_FAST = 17
 
 
 class AppScreen(FloatLayout):
@@ -41,15 +47,29 @@ class AppScreen(FloatLayout):
         self.main_menu_b = None
         self.play_again_b = None
         self.menu_background = None
+
+        # Configuration screen
+        self.configuration_b = None
+        self.configuration_l = None
+        self.sound_on_b = None
+        self.sound_off_b = None
+        self.sound_checked = None
+        self.speed_l = None
+        self.speed_slow_b = None
+        self.speed_medium_b = None
+        self.speed_fast_b = None
+        self.speed_checked = None
+
         self.game = None
 
         self.persis = level_persistance.Persistence()
         self.max_active_level = self.persis.read_level()
 
-        self.sound = True
+        self.sound = False
+        self.speed = SPEED_SLOW
+
         self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
-        self.music.volume = 0.05
-        self.music.loop = True
+        self.music.volume = 0.5
 
         self.__activate_menu(None)
 
@@ -70,21 +90,26 @@ class AppScreen(FloatLayout):
 
         # Galaxyrun Label
         self.galaxy_run_l = Label(text='[b]GALAXY RUN[/b]', markup=True)
-        self.galaxy_run_l.font_size = 46
+        self.galaxy_run_l.font_size = 62
         self.galaxy_run_l.bold = True
-        self.galaxy_run_l.color = [0.1, 0.1, 0.1, 0.5]
-        self.galaxy_run_l.pos_hint = {'x': .0, 'y': .3}
+        self.galaxy_run_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.galaxy_run_l.pos_hint = {'x': .0, 'y': .4}
         self.add_widget(self.galaxy_run_l)
 
         # New Game Button
-        self.play_b = Button(text='New game', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .5})
+        self.play_b = Button(text='New game', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .65})
         self.play_b.bind(on_press=self.activate_new_game)  # Add functionality to 'play button'
         self.add_widget(self.play_b)
 
         # Individual Levels Button
-        self.levels_b = Button(text='Levels', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .3})
+        self.levels_b = Button(text='Levels', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .47})
         self.levels_b.bind(on_press=self.activate_levels)  # Add functionality to 'Levels button'
         self.add_widget(self.levels_b)
+
+        # Configuration Button
+        self.configuration_b = Button(text='Configuration', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .28})
+        self.configuration_b.bind(on_press=self.activate_configuratin_window)  # Add functionality to 'Levels button'
+        self.add_widget(self.configuration_b)
 
         # Exit Button
         self.exit_b = Button(text='Exit', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .1})
@@ -100,7 +125,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(game_level=1, play_sound=True)
+        self.game.run_game(game_level=1, play_sound=self.sound)
 
     def activate_level_2_game(self, event):
         """
@@ -112,7 +137,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(game_level=2, play_sound=True)
+        self.game.run_game(game_level=2, play_sound=self.sound)
 
     def activate_levels(self, event):
         """
@@ -153,6 +178,94 @@ class AppScreen(FloatLayout):
 
         # Main menu button
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+    def activate_configuratin_window(self, event):
+        """
+        Activate configuration window
+        configure: sound ON/Off, Speed: Slow, Medium, Fast
+        :return:
+        """
+        self.clear_widgets()
+
+        # Menu Background
+        self.bckg_image = get_background(picture_path='pictures/menu_background.png')
+        self.add_widget(self.bckg_image)
+
+        # Levels label
+        self.configuration_l = Label(text='[b]CONFIGURATION[/b]', markup=True)
+        self.configuration_l.font_size = 62
+        self.configuration_l.bold = True
+        self.configuration_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.configuration_l.pos_hint = {'x': .0, 'y': .3}
+        self.add_widget(self.configuration_l)
+
+        # Sound ON/OFF label
+        self.sound_l = Label(text='[b]Sound[/b]', markup=True)
+        self.sound_l.font_size = 47
+        self.sound_l.bold = False
+        self.sound_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.sound_l.pos_hint = {'x': -0.3, 'y': .15}
+        self.add_widget(self.sound_l)
+
+        # Sound ON button
+        self.sound_on_b = Button(text='On', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.05, 'y': 0.45})
+        self.sound_on_b.bind(on_press=self.__set_sound_on)
+        self.add_widget(self.sound_on_b)
+
+        # Sound OFF button
+        self.sound_off_b = Button(text='Off', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.25, 'y': 0.45})
+        self.sound_off_b.bind(on_press=self.__set_sound_off)
+        self.add_widget(self.sound_off_b)
+
+        # Sound checked icon
+        self.sound_checked = Sprite(picture='pictures/checked.png', allow_stretch=True, allow_keep_ratio=True)
+        if self.sound:
+            self.sound_checked.pos_hint = {'x': 0.05, 'y': 0.33}
+        else:
+            self.sound_checked.pos_hint = {'x': 0.25, 'y': 0.33}
+        self.sound_checked.size_hint = (0.09, 0.09)
+        self.add_widget(self.sound_checked)
+
+        # Speed SLOW/MEDIUM/FAST
+        self.speed_l = Label(text='[b]Speed[/b]', markup=True)
+        self.speed_l.font_size = 47
+        self.speed_l.bold = False
+        self.speed_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.speed_l.pos_hint = {'x': 0.2, 'y': .15}
+        self.add_widget(self.speed_l)
+
+        # Speed SLOW button
+        self.speed_slow_b = Button(text='Slow', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.55, 'y': 0.45})
+        self.speed_slow_b.bind(on_press=self.__set_speed_slow)
+        self.add_widget(self.speed_slow_b)
+
+        # Speed MEDIUM button
+        self.speed_medium_b = Button(text='Medium', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.7, 'y': 0.45})
+        self.speed_medium_b.bind(on_press=self.__set_speed_medium)
+        self.add_widget(self.speed_medium_b)
+
+        # Speed FAST button
+        self.speed_fast_b = Button(text='Fast', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.85, 'y': 0.45})
+        self.speed_fast_b.bind(on_press=self.__set_speed_fast)
+        self.add_widget(self.speed_fast_b)
+
+        # Speed checked icon
+        self.speed_checked = Sprite(picture='pictures/checked.png', allow_stretch=True, allow_keep_ratio=True)
+        if self.speed == SPEED_SLOW:
+            self.speed_checked.pos_hint = {'x': 0.55, 'y': 0.33}
+        elif self.speed == SPEED_MEDIUM:
+            self.speed_checked.pos_hint = {'x': 0.7, 'y': 0.33}
+        elif self.speed == SPEED_FAST:
+            self.speed_checked.pos_hint = {'x': 0.85, 'y': 0.33}
+        else:
+            self.speed = SPEED_MEDIUM       # MEDIUM speed as default
+        self.speed_checked.size_hint = (0.09, 0.09)
+        self.add_widget(self.speed_checked)
+
+        # Main menu button
+        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .1})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -241,6 +354,55 @@ class AppScreen(FloatLayout):
 
     def __play_all_functional(self):
         functional_mp3 = SoundLoader.load('sound/function.mp3')
-        functional_mp3.volume = 0.05
+        functional_mp3.volume = 0.5
         if self.sound and functional_mp3:
             functional_mp3.play()
+
+    def __set_sound_on(self, event):
+        """
+        Activate sound
+        :param event:
+        :return:
+        """
+        self.sound = True
+        self.sound_checked.pos_hint = {'x': 0.05, 'y': 0.33}
+        if self.music:
+            self.__play_all_functional()
+            self.music.play()
+
+    def __set_sound_off(self, event):
+        """
+        Deactivate sound
+        :param event:
+        :return:
+        """
+        self.sound = False
+        self.sound_checked.pos_hint = {'x': 0.25, 'y': 0.33}
+        if self.music and self.music.state == 'play':
+            self.music.stop()
+
+    def __set_speed_slow(self, event):
+        """
+        Set slow speed via configuration
+        :param event:
+        :return:
+        """
+        self.speed = SPEED_SLOW
+        self.speed_checked.pos_hint = {'x': 0.55, 'y': 0.33}
+
+    def __set_speed_medium(self, event):
+        """
+        Set medium speed via configuration
+        :return:
+        """
+        self.speed = SPEED_MEDIUM
+        self.speed_checked.pos_hint = {'x': 0.7, 'y': 0.33}
+
+    def __set_speed_fast(self, event):
+        """
+        Set fast speed via configuration
+        :param event:
+        :return:
+        """
+        self.speed = SPEED_FAST
+        self.speed_checked.pos_hint = {'x': 0.85, 'y': 0.33}

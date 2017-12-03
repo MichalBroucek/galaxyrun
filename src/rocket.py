@@ -23,7 +23,7 @@ class Rocket(Sprite):
         self.collision_complete = False
         self.explosion_step = 0
         self.explosion_sound = SoundLoader.load('sound/explosion_02.wav')
-        self.explosion_sound.volume = 0.05
+        self.explosion_sound.volume = 0.5
 
     def activate_explosion(self, play_sound=False):
         if not self.collision_in_progress:

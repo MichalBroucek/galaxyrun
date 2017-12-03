@@ -24,8 +24,9 @@ from src.app_screen import AppScreen
 # 7) Make speed parametrized - the same speed for different displays !!!
 # 8) Make option to chose different speed ! slow, medium, fast ! - but all will be reasonable fast :-)
 # 9) Add 2nd level !
-# 10) Add 3rd level !
-# 11) Add music and sound effects !
+# CANCEL -  just 2 levels - 10) Add 3rd level !
+# DONE 11) Add music and sound effects !
+# DONE 12) Add configuration MENU
 
 
 class GameApp(App):
