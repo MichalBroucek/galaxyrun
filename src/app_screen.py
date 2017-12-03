@@ -66,7 +66,7 @@ class AppScreen(FloatLayout):
         self.max_active_level = self.persis.read_level()
 
         self.sound = False
-        self.speed = SPEED_SLOW
+        self.speed = SPEED_MEDIUM
 
         self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
         self.music.volume = 0.5
@@ -125,7 +125,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(game_level=1, play_sound=self.sound)
+        self.game.run_game(game_level=1, play_sound=self.sound, speed=self.speed)
 
     def activate_level_2_game(self, event):
         """
@@ -137,7 +137,7 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(game_level=2, play_sound=self.sound)
+        self.game.run_game(game_level=2, play_sound=self.sound, speed=self.speed)
 
     def activate_levels(self, event):
         """

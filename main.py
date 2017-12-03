@@ -21,13 +21,14 @@ from src.app_screen import AppScreen
 # DONE 3) Issue about screens - menu screen is not fullscreen on mobile HW device
 # DONE # 5) Check persistence (for levels) - it it's working ?
 # DONE # 6) Improve collision detection !!!
-# 7) Make speed parametrized - the same speed for different displays !!!
-# 8) Make option to chose different speed ! slow, medium, fast ! - but all will be reasonable fast :-)
-# 9) Add 2nd level !
+# DONE 7) Make speed parametrized - the same speed for different displays !!!
+# DONE 8) Make option to chose different speed ! slow, medium, fast ! - but all will be reasonable fast :-)
+# DONE 9) Add 2nd level !
 # CANCEL -  just 2 levels - 10) Add 3rd level !
 # DONE 11) Add music and sound effects !
 # DONE 12) Add configuration MENU
-
+# 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
+# 14) Make configuration persistent !
 
 class GameApp(App):
     def build(self):

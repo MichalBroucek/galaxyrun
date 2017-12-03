@@ -73,8 +73,8 @@ class Meteorites(Obstacles):
     """
     Generate list of Rocks for level 2
     """
-    def __init__(self):
-        super(Meteorites, self).__init__(picture_src='pictures/meteor_smaller.png', speed=17,
+    def __init__(self, flight_speed=13):
+        super(Meteorites, self).__init__(speed=flight_speed, picture_src='pictures/meteor_smaller.png',
                                          offset_positions=INITIAL_POS_OFFSETS, allow_stretch=True,
                                          allow_keep_ratio=True)
 

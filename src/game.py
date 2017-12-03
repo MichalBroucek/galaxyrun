@@ -85,13 +85,12 @@ class Game(Widget):
         if touch.y < self.slider.top:
             self.rocket.center_x = touch.x
 
-    def run_game(self, game_level, play_sound=False):
+    def run_game(self, game_level, play_sound=False, speed=13):
         """
         Initialize game window setup background, rocket, slider, obstacles and start game update loop
         :return:
         """
         self.clear_widgets()
-
 
         self.running_level = game_level     # Setup actual running level
         self.sound = play_sound
@@ -101,7 +100,7 @@ class Game(Widget):
         self.add_widget(self.game_backgrounds.image)
         self.add_widget(self.game_backgrounds.image_dupe)
 
-        self.obstacles = self.__get_obstacles_for_game()
+        self.obstacles = self.__get_obstacles_for_game(obstacles_speed=speed)
         self.meteorites_background = self.__get_meteorites_background()
 
         self.add_widget(self.game_backgrounds)
@@ -157,16 +156,16 @@ class Game(Widget):
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
 
-    def __get_obstacles_for_game(self):
+    def __get_obstacles_for_game(self, obstacles_speed=13):
         """
         Get lists of obstacles for individual levels
         1st level -> Meteorites
         :return:
         """
         if self.running_level == 1:
-            return Meteorites()
+            return Meteorites(flight_speed=obstacles_speed)
         if self.running_level == 2:
-            return Rocks_edges()
+            return Rocks_edges(flight_speed=obstacles_speed)
         elif self.running_level == 3:
             return None
         else:

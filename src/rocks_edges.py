@@ -172,8 +172,8 @@ class Rocks_edges(Obstacles):
     Generate list of Rocks for level 2
     """
 
-    def __init__(self):
-        super(Rocks_edges, self).__init__(picture_src='pictures/square_3.png', speed=5, offset_positions=INITIAL_POS_OFFSETS,
+    def __init__(self, flight_speed=13):
+        super(Rocks_edges, self).__init__(speed=flight_speed, picture_src='pictures/square_3.png', offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=False)
         self.initial_pos_offset_with_flags = generate_coordinates_with_flags()
 
