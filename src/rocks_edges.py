@@ -1,6 +1,5 @@
 __author__ = 'brouk'
 
-# import rock
 from obstacles import Obstacles
 from kivy.core.window import Window
 import copy             # For lists

@@ -65,8 +65,9 @@ class AppScreen(FloatLayout):
         self.persis = level_persistance.Persistence()
         self.max_active_level = self.persis.read_level()
 
-        self.sound = False
-        self.speed = SPEED_MEDIUM
+        #self.sound = False
+        self.sound = self.persis.read_sound()
+        self.speed = self.persis.read_speed()
 
         self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
         #self.music.volume = 0.5     # Android
@@ -372,6 +373,7 @@ class AppScreen(FloatLayout):
         if self.music:
             self.__play_all_functional()
             self.music.play()
+        self.persis.write_sound(self.sound)
 
     def __set_sound_off(self, event):
         """
@@ -383,6 +385,7 @@ class AppScreen(FloatLayout):
         self.sound_checked.pos_hint = {'x': 0.25, 'y': 0.33}
         if self.music and self.music.state == 'play':
             self.music.stop()
+        self.persis.write_sound(self.sound)
 
     def __set_speed_slow(self, event):
         """
@@ -392,6 +395,7 @@ class AppScreen(FloatLayout):
         """
         self.speed = SPEED_SLOW
         self.speed_checked.pos_hint = {'x': 0.55, 'y': 0.33}
+        self.persis.write_speed(SPEED_SLOW)
 
     def __set_speed_medium(self, event):
         """
@@ -400,6 +404,7 @@ class AppScreen(FloatLayout):
         """
         self.speed = SPEED_MEDIUM
         self.speed_checked.pos_hint = {'x': 0.7, 'y': 0.33}
+        self.persis.write_speed(SPEED_MEDIUM)
 
     def __set_speed_fast(self, event):
         """
@@ -409,6 +414,7 @@ class AppScreen(FloatLayout):
         """
         self.speed = SPEED_FAST
         self.speed_checked.pos_hint = {'x': 0.85, 'y': 0.33}
+        self.persis.write_speed(SPEED_FAST)
 
     def __get_level_function(self, new_level):
         if new_level == 1:
