@@ -101,7 +101,7 @@ class Game(Widget):
         self.add_widget(self.game_backgrounds.image_dupe)
 
         self.obstacles = self.__get_obstacles_for_game(obstacles_speed=speed)
-        self.meteorites_background = self.__get_meteorites_background()
+        self.meteorites_background = self.__get_meteorites_background(obstacles_speed=speed)
 
         self.add_widget(self.game_backgrounds)
 
@@ -125,7 +125,7 @@ class Game(Widget):
         :return:
         """
         self.__stop_update()
-        self.game_screen.get_game_over_menu_items()
+        self.game_screen.get_game_over_menu_items(self.running_level)
 
     def __activate_new_level(self):
         """
@@ -185,7 +185,7 @@ class Game(Widget):
         else:
             pass
 
-    def __get_meteorites_background(self):
+    def __get_meteorites_background(self, obstacles_speed=13):
         """
         Return meteorites which are flying on the background - no crash possible
         They are just for decoration
@@ -194,7 +194,7 @@ class Game(Widget):
         if self.running_level == 1:
             return []
         if self.running_level == 2:
-            return Rock_background_meteorites()
+            return Rock_background_meteorites(flight_speed=obstacles_speed)
         elif self.running_level == 3:
             return []
         else:

@@ -69,7 +69,8 @@ class AppScreen(FloatLayout):
         self.speed = SPEED_MEDIUM
 
         self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
-        self.music.volume = 0.5
+        #self.music.volume = 0.5     # Android
+        self.music.volume = 0.05
 
         self.__activate_menu(None)
 
@@ -277,7 +278,7 @@ class AppScreen(FloatLayout):
         """
         App.get_running_app().stop()
 
-    def get_game_over_menu_items(self):
+    def get_game_over_menu_items(self, level=1):
         """
         Game over menu items - Play again X Main menu
         :return:
@@ -297,7 +298,8 @@ class AppScreen(FloatLayout):
 
         # Play again button
         self.play_again_b = Button(text='Play again', font_size=22, size_hint=(.15, .15), pos_hint={'x': .2, 'y': .3})
-        self.play_again_b.bind(on_press=self.activate_new_game)
+        activate_the_same_level_function = self.__get_level_function(level)
+        self.play_again_b.bind(on_press=activate_the_same_level_function)
         self.add_widget(self.play_again_b)
 
         # Main menu button
@@ -318,7 +320,7 @@ class AppScreen(FloatLayout):
         if new_level > self.max_active_level:
             self.persis.write_level(new_level)
             self.max_active_level = self.persis.read_level()
-            print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.max_active_level)
+            #print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.max_active_level)
 
         # Menu Background
         self.bckg_image = get_background(picture_path='pictures/menu_background.png')
@@ -343,8 +345,8 @@ class AppScreen(FloatLayout):
         # Play New level button
         button_label = "".join(['Play Level ', str(new_level)])
         self.new_level_b = Button(text=button_label, font_size=22, size_hint=(.20, .15), pos_hint={'x': .2, 'y': .2})
-        # todo:  Add proper function here ...
-        #self.main_menu_b.bind(on_press=self.__activate_menu)
+        start_next_level_function = self.__get_level_function(new_level)
+        self.new_level_b.bind(on_press=start_next_level_function)
         self.add_widget(self.new_level_b)
 
         # Main menu button
@@ -354,7 +356,8 @@ class AppScreen(FloatLayout):
 
     def __play_all_functional(self):
         functional_mp3 = SoundLoader.load('sound/function.mp3')
-        functional_mp3.volume = 0.5
+        #functional_mp3.volume = 0.5    # Android
+        functional_mp3.volume = 0.05
         if self.sound and functional_mp3:
             functional_mp3.play()
 
@@ -406,3 +409,11 @@ class AppScreen(FloatLayout):
         """
         self.speed = SPEED_FAST
         self.speed_checked.pos_hint = {'x': 0.85, 'y': 0.33}
+
+    def __get_level_function(self, new_level):
+        if new_level == 1:
+            return self.activate_new_game
+        elif new_level == 2:
+            return self.activate_level_2_game
+        else:
+            return self.activate_new_game

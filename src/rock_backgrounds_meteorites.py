@@ -1,6 +1,5 @@
 __author__ = 'brouk'
 
-# import rock
 from obstacles import Obstacles
 from kivy.core.window import Window
 
@@ -32,8 +31,8 @@ class Rock_background_meteorites(Obstacles):
     Generate list of Rocks backgrounds and side rock for decoration of level 2
     """
 
-    def __init__(self):
-        super(Rock_background_meteorites, self).__init__(picture_src='pictures/met_small.png', speed=5, offset_positions=INITIAL_POS_OFFSETS,
+    def __init__(self, flight_speed=13):
+        super(Rock_background_meteorites, self).__init__(picture_src='pictures/met_small.png', speed=flight_speed, offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=True)
 
     def add_all_to_widget(self, destination_widget):

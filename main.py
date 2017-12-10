@@ -27,7 +27,7 @@ from src.app_screen import AppScreen
 # CANCEL -  just 2 levels - 10) Add 3rd level !
 # DONE 11) Add music and sound effects !
 # DONE 12) Add configuration MENU
-# 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
+# DONE 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
 # 14) Make configuration persistent !
 
 class GameApp(App):
