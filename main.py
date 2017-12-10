@@ -28,7 +28,12 @@ from src.app_screen import AppScreen
 # DONE 11) Add music and sound effects !
 # DONE 12) Add configuration MENU
 # DONE 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
-# 14) Make configuration persistent !
+# DONE 14) Make configuration persistent !
+# 15) Add more meteorites on background for level 2
+# 15) Make more testing (different devices - optimize collisions - change music to free music ... )
+# 16) Test speed values
+# 16) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
+
 
 class GameApp(App):
     def build(self):
