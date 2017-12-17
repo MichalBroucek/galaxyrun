@@ -33,6 +33,7 @@ from src.app_screen import AppScreen
 # 15) Make more testing (different devices - optimize collisions - change music to free music ... )
 # 16) Test speed values
 # 16) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
+# DONE 17) Use free music ! - almost done - just check it and commit ...
 
 
 class GameApp(App):

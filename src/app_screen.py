@@ -6,6 +6,8 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.app import App
 from kivy.core.window import Window
+from kivy.clock import Clock
+import random
 from src.game import Game
 from sprite import Sprite
 import level_persistance
@@ -26,6 +28,9 @@ def get_background(picture_path='pictures/background_bigger.png'):
 SPEED_SLOW = 7
 SPEED_MEDIUM = 13
 SPEED_FAST = 17
+
+MUSIC_VOLUME = 0.05     # Headphones
+#MUSIC_VOLUME = 0.5     # Android device
 
 
 class AppScreen(FloatLayout):
@@ -69,9 +74,14 @@ class AppScreen(FloatLayout):
         self.sound = self.persis.read_sound()
         self.speed = self.persis.read_speed()
 
-        self.music = SoundLoader.load('sound/2001_Space_Odyssey_big.mp3')
-        #self.music.volume = 0.5     # Android
-        self.music.volume = 0.05
+        self.menu_music_list = self.__get_menu_music()
+
+        self.click = SoundLoader.load('sound/click_1.wav')
+        self.click.seek(0.4)
+        self.click.volume = MUSIC_VOLUME
+
+        self.click_configuration = SoundLoader.load('sound/click_2.wav')
+        self.click_configuration.volume = MUSIC_VOLUME
 
         self.__activate_menu(None)
 
@@ -80,12 +90,11 @@ class AppScreen(FloatLayout):
         Initialize menu view and activate menu screen
         :return:
         """
+        self.play_click_button()
         self.clear_widgets()
+        #self.__play_all_functional()
 
-        self.__play_all_functional()
-
-        if self.sound:
-            self.music.play()
+        self.play_menu_music_list()
 
         self.bckg_image = get_background(picture_path='pictures/background_bigger.png')
         self.add_widget(self.bckg_image)
@@ -123,6 +132,8 @@ class AppScreen(FloatLayout):
         Activate game screen on touch New Game button
         :return:
         """
+        self.play_click_button()
+        self.stop_playing_menu_music_list()
         self.clear_widgets()
         self.game = Game(self)
         self.game.size = self.size
@@ -135,6 +146,8 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
+        self.play_click_button()
+        self.stop_playing_menu_music_list()
         self.clear_widgets()
         self.game = Game(self)
         self.game.size = self.size
@@ -146,6 +159,7 @@ class AppScreen(FloatLayout):
         Activate Levels game screen on touch Levels button
         :return:
         """
+        self.play_click_button()
         self.clear_widgets()
 
         # Menu Background
@@ -189,6 +203,7 @@ class AppScreen(FloatLayout):
         configure: sound ON/Off, Speed: Slow, Medium, Fast
         :return:
         """
+        self.play_click_button()
         self.clear_widgets()
 
         # Menu Background
@@ -277,13 +292,15 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
-        App.get_running_app().stop()
+        self.play_click_button()
+        Clock.schedule_once(App.get_running_app().stop, 0.8)
 
     def get_game_over_menu_items(self, level=1):
         """
         Game over menu items - Play again X Main menu
         :return:
         """
+        self.play_menu_music_list()
         self.clear_widgets()
 
         # Menu Background
@@ -313,6 +330,7 @@ class AppScreen(FloatLayout):
         Level successful screen
         :return:
         """
+        self.play_menu_music_list()
         self.clear_widgets()
 
         # Save new level into persistent layer and read it back into actual variable
@@ -357,8 +375,7 @@ class AppScreen(FloatLayout):
 
     def __play_all_functional(self):
         functional_mp3 = SoundLoader.load('sound/function.mp3')
-        #functional_mp3.volume = 0.5    # Android
-        functional_mp3.volume = 0.05
+        functional_mp3.volume = MUSIC_VOLUME       # PC headphones volume level
         if self.sound and functional_mp3:
             functional_mp3.play()
 
@@ -369,10 +386,10 @@ class AppScreen(FloatLayout):
         :return:
         """
         self.sound = True
+        self.play_configuration_click_button()
         self.sound_checked.pos_hint = {'x': 0.05, 'y': 0.33}
-        if self.music:
-            self.__play_all_functional()
-            self.music.play()
+        self.__play_all_functional()
+        self.play_menu_music_list()
         self.persis.write_sound(self.sound)
 
     def __set_sound_off(self, event):
@@ -381,10 +398,10 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
+        self.play_configuration_click_button()
         self.sound = False
         self.sound_checked.pos_hint = {'x': 0.25, 'y': 0.33}
-        if self.music and self.music.state == 'play':
-            self.music.stop()
+        self.stop_playing_menu_music_list()
         self.persis.write_sound(self.sound)
 
     def __set_speed_slow(self, event):
@@ -393,6 +410,7 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
+        self.play_configuration_click_button()
         self.speed = SPEED_SLOW
         self.speed_checked.pos_hint = {'x': 0.55, 'y': 0.33}
         self.persis.write_speed(SPEED_SLOW)
@@ -402,6 +420,7 @@ class AppScreen(FloatLayout):
         Set medium speed via configuration
         :return:
         """
+        self.play_configuration_click_button()
         self.speed = SPEED_MEDIUM
         self.speed_checked.pos_hint = {'x': 0.7, 'y': 0.33}
         self.persis.write_speed(SPEED_MEDIUM)
@@ -412,6 +431,7 @@ class AppScreen(FloatLayout):
         :param event:
         :return:
         """
+        self.play_configuration_click_button()
         self.speed = SPEED_FAST
         self.speed_checked.pos_hint = {'x': 0.85, 'y': 0.33}
         self.persis.write_speed(SPEED_FAST)
@@ -423,3 +443,33 @@ class AppScreen(FloatLayout):
             return self.activate_level_2_game
         else:
             return self.activate_new_game
+
+    def play_click_button(self):
+        if self.sound:
+            self.click.play()
+
+    def play_configuration_click_button(self):
+        if self.sound:
+            self.click_configuration.play()
+
+    def __get_menu_music(self):
+        music_1 = SoundLoader.load('sound/menu_1.mp3')
+        music_1.volume = MUSIC_VOLUME
+        music_1.loop = True
+        music_2 = SoundLoader.load('sound/menu_2.mp3')
+        music_2.volume = MUSIC_VOLUME
+        music_2.loop = True
+        music_3 = SoundLoader.load('sound/menu_3.mp3')
+        music_3.volume = MUSIC_VOLUME
+        music_3.loop = True
+        return [music_1, music_2, music_3]
+
+    def play_menu_music_list(self):
+        menu_music = random.choice(self.menu_music_list)
+        print menu_music
+        menu_music.play()
+
+    def stop_playing_menu_music_list(self):
+        for music in self.menu_music_list:
+            if music.state == 'play':
+                music.stop()

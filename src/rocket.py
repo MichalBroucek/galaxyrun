@@ -3,6 +3,7 @@ __author__ = 'brouk'
 from kivy.clock import Clock
 from sprite import Sprite
 from kivy.core.audio import SoundLoader
+import app_screen
 
 ROCKET_PNG = "pictures/rocket_01_40x69.png"
 ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
@@ -23,9 +24,8 @@ class Rocket(Sprite):
         self.collision_complete = False
         self.explosion_step = 0
         self.explosion_sound = SoundLoader.load('sound/explosion_02.wav')
-        #self.explosion_sound.volume = 0.5 # - mobil configuration
-        self.explosion_sound.volume = 0.05
-        self.explosion_sound.seek(0.3)
+        self.explosion_sound.volume = app_screen.MUSIC_VOLUME
+        self.explosion_sound.seek(0.5)
 
     def activate_explosion(self, play_sound=False):
         if not self.collision_in_progress:

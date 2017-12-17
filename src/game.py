@@ -2,6 +2,7 @@ __author__ = 'brouk'
 
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
+from kivy.core.audio import SoundLoader
 
 from src.background import Background
 from rocket import Rocket
@@ -9,6 +10,7 @@ from sprite import Sprite
 from meteorites import Meteorites
 from rocks_edges import Rocks_edges
 from rock_backgrounds_meteorites import Rock_background_meteorites
+import app_screen
 
 from kivy.core.window import Window
 
@@ -26,6 +28,8 @@ class Game(Widget):
         self.meteorites_background = self.__get_meteorites_background()
         self.last_screen = False
         self.sound = False
+        self.music = None
+        self.__set_music_for_level(self.running_level)
 
     def __run_update(self):
         """
@@ -93,7 +97,9 @@ class Game(Widget):
         self.clear_widgets()
 
         self.running_level = game_level     # Setup actual running level
-        self.sound = play_sound
+        self.sound = play_sound             # Setup Sound configuration
+        self.__set_music_for_level(game_level)
+        self.__play_music()
 
         # Setup Game background and obstacles for current level
         self.game_backgrounds = self.__get_background_for_game()
@@ -124,6 +130,7 @@ class Game(Widget):
         Stop game loop and activate game over screen
         :return:
         """
+        self.__stop_music()
         self.__stop_update()
         self.game_screen.get_game_over_menu_items(self.running_level)
 
@@ -133,6 +140,7 @@ class Game(Widget):
         :param event:
         :return:
         """
+        self.__stop_music()
         self.__stop_update()
         self.game_screen.level_finnish_screen(self.running_level)
 
@@ -199,3 +207,21 @@ class Game(Widget):
             return []
         else:
             return None
+
+    def __set_music_for_level(self, level=1):
+        if level == 1:
+            self.music = SoundLoader.load('sound/level_1.mp3')
+        elif level == 2:
+            self.music = SoundLoader.load('sound/level_2.mp3')
+        else:
+            self.music = SoundLoader.load('sound/level_1.mp3')
+
+        self.music.volume = app_screen.MUSIC_VOLUME / 3.0
+
+    def __play_music(self):
+        if self.sound and self.music:
+            self.music.play()
+
+    def __stop_music(self):
+        if self.sound and self.music.state == 'play':
+            self.music.stop()
