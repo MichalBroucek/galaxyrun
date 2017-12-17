@@ -142,7 +142,7 @@ class Game(Widget):
         """
         self.__stop_music()
         self.__stop_update()
-        self.game_screen.level_finnish_screen(self.running_level)
+        self.game_screen.level_finish_screen(self.running_level)
 
     def __get_background_for_game(self):
         """

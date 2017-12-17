@@ -170,7 +170,7 @@ class AppScreen(FloatLayout):
         self.levels_l = Label(text='[b]LEVELS[/b]', markup=True)
         self.levels_l.font_size = 46
         self.levels_l.bold = True
-        self.levels_l.color = [0.1, 0.1, 0.1, 0.5]
+        self.levels_l.color = [0.8, 0.8, 0.8, 0.5]
         self.levels_l.pos_hint = {'x': .0, 'y': .3}
         self.add_widget(self.levels_l)
 
@@ -180,17 +180,18 @@ class AppScreen(FloatLayout):
         self.level_1_b.bind(on_press=self.activate_new_game)
         self.add_widget(self.level_1_b)
 
-        self.level_2_b = Button(text='2nd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .5})
+        self.level_2_b = Button(text='2nd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
         self.level_2_b.bind(on_press=self.activate_level_2_game)
         if self.max_active_level < 2:
             self.level_2_b.disabled = True
         self.add_widget(self.level_2_b)
 
-        self.level_3_b = Button(text='3rd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
-        #self.level_2_b.bind(on_press=self.activate_new_game())
-        if self.max_active_level < 3:
-            self.level_3_b.disabled = True
-        self.add_widget(self.level_3_b)
+        # Level 3 was CANCELED #
+        # self.level_3_b = Button(text='3rd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
+        # #self.level_2_b.bind(on_press=self.activate_new_game())
+        # if self.max_active_level < 3:
+        #     self.level_3_b.disabled = True
+        # self.add_widget(self.level_3_b)
 
         # Main menu button
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
@@ -310,7 +311,7 @@ class AppScreen(FloatLayout):
         self.game_over_l = Label(text='[b]GAME OVER[/b]', markup=True)
         self.game_over_l.font_size = 46
         self.game_over_l.bold = True
-        self.game_over_l.color = [0.7, 0.7, 0.7, 0.2]
+        self.game_over_l.color = [0.8, 0.8, 0.8, 0.5]
         self.game_over_l.pos_hint = {'x': .0, 'y': 0.1}
         self.add_widget(self.game_over_l)
 
@@ -325,7 +326,7 @@ class AppScreen(FloatLayout):
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
-    def level_finnish_screen(self, level=1):
+    def level_finish_screen(self, level=1):
         """
         Level successful screen
         :return:
@@ -339,7 +340,6 @@ class AppScreen(FloatLayout):
         if new_level > self.max_active_level:
             self.persis.write_level(new_level)
             self.max_active_level = self.persis.read_level()
-            #print "--- NEW LEVEL SAVED ANd READ AGAIN: {0}".format(self.max_active_level)
 
         # Menu Background
         self.bckg_image = get_background(picture_path='pictures/menu_background.png')
@@ -349,7 +349,7 @@ class AppScreen(FloatLayout):
         self.level_completed_l = Label(text=message_finnish, markup=True)
         self.level_completed_l.font_size = 46
         self.level_completed_l.bold = True
-        self.level_completed_l.color = [0.7, 0.7, 0.7, 0.2]
+        self.level_completed_l.color = [0.8, 0.8, 0.8, 0.5]
         self.level_completed_l.pos_hint = {'x': 0.0, 'y': 0.3}
         self.add_widget(self.level_completed_l)
 
@@ -357,7 +357,7 @@ class AppScreen(FloatLayout):
         self.level_activated_l = Label(text=message_activated, markup=True)
         self.level_activated_l.font_size = 46
         self.level_activated_l.bold = True
-        self.level_activated_l.color = [0.7, 0.7, 0.7, 0.2]
+        self.level_activated_l.color = [0.8, 0.8, 0.8, 0.5]
         self.level_activated_l.pos_hint = {'x': 0.0, 'y': 0.0}
         self.add_widget(self.level_activated_l)
 
@@ -465,9 +465,9 @@ class AppScreen(FloatLayout):
         return [music_1, music_2, music_3]
 
     def play_menu_music_list(self):
-        menu_music = random.choice(self.menu_music_list)
-        print menu_music
-        menu_music.play()
+        if self.sound:
+            menu_music = random.choice(self.menu_music_list)
+            menu_music.play()
 
     def stop_playing_menu_music_list(self):
         for music in self.menu_music_list:

@@ -29,11 +29,13 @@ from src.app_screen import AppScreen
 # DONE 12) Add configuration MENU
 # DONE 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
 # DONE 14) Make configuration persistent !
-# 15) Add more meteorites on background for level 2
+# DONE 15) Add more meteorites on background for level 2
 # 15) Make more testing (different devices - optimize collisions - change music to free music ... )
 # 16) Test speed values
 # 16) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
+#       # OR at minimum add contact form ... :-)
 # DONE 17) Use free music ! - almost done - just check it and commit ...
+# DONE 17) Make LABEL and MENUs consistent
 
 
 class GameApp(App):
