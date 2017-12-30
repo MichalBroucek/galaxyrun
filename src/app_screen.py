@@ -12,6 +12,19 @@ from src.game import Game
 from sprite import Sprite
 import level_persistance
 from kivy.core.audio import SoundLoader
+from kivy.utils import platform
+from plyer import email
+
+# TODO: check if this is necessary for Android build !!!
+try:
+    import os
+    javapath = "/home/brouk/Android/Sdk/platforms/android-24/*"
+    os.environ['CLASSPATH'] = javapath
+    print 'CLASSPATH: ', os.environ['CLASSPATH']
+except:
+    print "!!! ERROR when setting Java CLASS_PATH !!!"
+
+from jnius import autoclass
 
 
 def get_background(picture_path='pictures/background_bigger.png'):
@@ -29,8 +42,8 @@ SPEED_SLOW = 7
 SPEED_MEDIUM = 13
 SPEED_FAST = 17
 
-MUSIC_VOLUME = 0.05     # Headphones
-#MUSIC_VOLUME = 0.5     # Android device
+#MUSIC_VOLUME = 0.05     # Headphones
+MUSIC_VOLUME = 0.5     # Android device
 
 
 class AppScreen(FloatLayout):
@@ -52,6 +65,10 @@ class AppScreen(FloatLayout):
         self.main_menu_b = None
         self.play_again_b = None
         self.menu_background = None
+
+        self.send_msg_b = None
+        self.help_b = None
+        self.text_msg_contain = None
 
         # Configuration screen
         self.configuration_b = None
@@ -122,6 +139,16 @@ class AppScreen(FloatLayout):
         self.configuration_b.bind(on_press=self.activate_configuratin_window)  # Add functionality to 'Levels button'
         self.add_widget(self.configuration_b)
 
+        # Send message button
+        self.send_msg_b = Button(text='Send Msg', font_size=22, size_hint=(.1, .1), pos_hint={'x': .8, 'y': .28})
+        self.send_msg_b.bind(on_press=self.activate_send_msg)
+        self.add_widget(self.send_msg_b)
+
+        # Help button
+        self.help_b = Button(text='Help', font_size=22, size_hint=(.1, .1), pos_hint={'x': .1, 'y': .28})
+        self.help_b.bind(on_press=self.activate_help)
+        self.add_widget(self.help_b)
+
         # Exit Button
         self.exit_b = Button(text='Exit', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .1})
         self.exit_b.bind(on_press=self.exit_game)  # Add functionality to 'Exit button'
@@ -185,13 +212,6 @@ class AppScreen(FloatLayout):
         if self.max_active_level < 2:
             self.level_2_b.disabled = True
         self.add_widget(self.level_2_b)
-
-        # Level 3 was CANCELED #
-        # self.level_3_b = Button(text='3rd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
-        # #self.level_2_b.bind(on_press=self.activate_new_game())
-        # if self.max_active_level < 3:
-        #     self.level_3_b.disabled = True
-        # self.add_widget(self.level_3_b)
 
         # Main menu button
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
@@ -284,6 +304,136 @@ class AppScreen(FloatLayout):
 
         # Main menu button
         self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .1})
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+    def activate_help(self, event):
+        """
+        Activate Help for game
+        :return:
+        """
+        self.clear_widgets()
+
+        # Menu Background
+        self.bckg_image = get_background(picture_path='pictures/menu_background.png')
+        self.add_widget(self.bckg_image)
+
+        # Levels label
+        help_l = Label(text='[b]HELP[/b]', markup=True)
+        help_l.font_size = 46
+        help_l.bold = True
+        help_l.color = [0.8, 0.8, 0.8, 0.5]
+        help_l.pos_hint = {'x': .0, 'y': .3}
+        self.add_widget(help_l)
+
+        # Help text
+        text = \
+        """
+        [b]game[/b]          ... tady bude nejaka napoveda ...
+                                 neco jako jak hrat ...
+        [b]konfigurace[/b]   ... a jak konfigurovat
+        [b][/b]
+        ...
+        """
+        help_text = Label(text=text, markup=True)
+        help_text.font_size = 24
+        help_text.color = [0.97, 0.97, 0.97, 0.9]
+        help_text.pos_hint = {'x': -0.27, 'y': 0.1}
+        self.add_widget(help_text)
+
+        # Main menu button
+        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .1})
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+    def __is_data_connection(self):
+        """
+        Check Android DATA connection here - using pyjnius
+        :return:
+        """
+        is_connected = False
+
+        if platform == 'android':
+            try:
+                # Note: this is working ONLY on Android phone !
+                Context = autoclass('android.content.Context')                                  # Context is a normal java class in the Android API
+                PythonActivity = autoclass('org.renpy.android.PythonActivity')                  # PythonActivity is provided by the Kivy bootstrap app in python-for-android
+                activity = PythonActivity.mActivity                                             # The PythonActivity stores a reference to the currently running activity
+                connectivity_service = activity.getSystemService(Context.CONNECTIVITY_SERVICE)  # Get Connectivity service
+                active_network_info = connectivity_service.getActiveNetworkInfo()               # Get active Network info
+
+                if active_network_info:
+                    # print "OOOOOOOOO active_network_info.toString(): {} OOOOOOOOO".format(active_network_info.toString())
+                    # print "OOOOOOOOO active_network_info.getTypeName(): {} OOOOOOOOO".format(active_network_info.getTypeName())
+                    # print "OOOOOOOOO active_network_info.isConnected(): {} OOOOOOOOO".format(active_network_info.isConnected())
+                    is_connected = active_network_info.isConnected()
+                else:
+                    print "No Active network !"
+                    is_connected = False
+            except:
+                print "ERROR_IS_CONNECTED from Android API ..."
+                is_connected = False
+        else:
+            print "No Android platform -> Cannot detect data connection"
+
+        return is_connected
+
+    def activate_send_msg(self, event):
+        """
+        Activate screen for sending email message
+        :return:
+        """
+        if not self.__is_data_connection():
+            self.__activate_no_connection_screen()
+        else:
+            self.__send_email_via_ext_app()
+
+    def __update_textinput_content(self, instance, value):
+        """
+        Just for testing purpposes
+        :return:
+        """
+        self.text_msg_contain = value
+
+    def __send_email_via_ext_app(self):
+        """
+        Send Email message screen - Connection is available
+        :return:
+        """
+        try:
+            email.send(recipient='michalbroucek@gmail.com', subject='Galaxyrun feedback', text='Your message from App here: ')
+            self.__activate_menu(None)
+        except:
+            print '!!! Cannot send an EMAIL - unknow reason !!!'
+            self.__activate_no_connection_screen()
+
+    def __activate_no_connection_screen(self):
+        """
+        Warning screen about - No connection Available
+        :return:
+        """
+        # Menu Background
+        self.bckg_image = get_background(picture_path='pictures/menu_background.png')
+        self.add_widget(self.bckg_image)
+
+        # No connection label text
+        no_connection_l = Label(text='[b]No Internet connection available ![/b]', markup=True)
+        no_connection_l.font_size = 46
+        no_connection_l.bold = True
+        no_connection_l.color = [0.8, 0.8, 0.8, 0.5]
+        no_connection_l.pos_hint = {'x': .0, 'y': .3}
+        self.add_widget(no_connection_l)
+
+        # No connection label description
+        no_connection_l = Label(text='Please check or activate your data connection.')
+        no_connection_l.font_size = 36
+        no_connection_l.bold = True
+        no_connection_l.color = [0.8, 0.8, 0.8, 0.5]
+        no_connection_l.pos_hint = {'x': .0, 'y': .0}
+        self.add_widget(no_connection_l)
+
+        # Main menu button
+        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 

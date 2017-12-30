@@ -37,7 +37,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma seperated e.g. requirements = sqlite3,kivy
-requirements = kivy
+requirements = kivy, pyjnius, plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -74,6 +74,7 @@ fullscreen = 1
 
 # (list) Permissions
 #android.permissions = INTERNET
+android.permissions = ACCESS_NETWORK_STATE
 
 # (int) Android API to use
 #android.api = 19
@@ -118,6 +119,7 @@ fullscreen = 1
 # down the build process. Allows wildcards matching, for example:
 # OUYA-ODK/libs/*.jar
 #android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
+#android.add_jars = /home/brouk/Android/Sdk/platforms/android-24/android.jar
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)

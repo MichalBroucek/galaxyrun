@@ -24,18 +24,25 @@ from src.app_screen import AppScreen
 # DONE 7) Make speed parametrized - the same speed for different displays !!!
 # DONE 8) Make option to chose different speed ! slow, medium, fast ! - but all will be reasonable fast :-)
 # DONE 9) Add 2nd level !
-# CANCEL -  just 2 levels - 10) Add 3rd level !
+# CANCELED -  just 2 levels - 10) Add 3rd level !
 # DONE 11) Add music and sound effects !
 # DONE 12) Add configuration MENU
 # DONE 13) Test user flow -> and un-bug it (game over for 2nd level -> play again 2nd level) !
 # DONE 14) Make configuration persistent !
 # DONE 15) Add more meteorites on background for level 2
-# 15) Make more testing (different devices - optimize collisions - change music to free music ... )
-# 16) Test speed values
-# 16) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
-#       # OR at minimum add contact form ... :-)
-# DONE 17) Use free music ! - almost done - just check it and commit ...
-# DONE 17) Make LABEL and MENUs consistent
+# DONE 15) Make more testing (different devices - optimize collisions - change music to free music ... )
+# 16) Test speed values - SLoW = can be a little faster)
+#                         MEDIUM = can be faster for 1st level (2nd level ?)
+#                         FAST = can be faster for 1st level (2nd level ?)
+# CANCELED 17) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
+# DONE      # OR at minimum add contact form ... :-)
+# DONE 18) Use free music ! - almost done - just check it and commit ...
+# DONE 19) Make LABEL and MENUs consistent
+# 20) Make new backgrounds - for level 1 and level 2 (?), for last screen level 2
+# 21) Make final screen after finnishing level 2
+# 22) Make app Icon !
+# 23) Make splash screen !
+# 24) PUSH it to Android market ... as Galaxyrun-Lite
 
 
 class GameApp(App):
@@ -44,6 +51,20 @@ class GameApp(App):
         # return game
         appScreen = AppScreen()
         return appScreen
+
+    def on_pause(self):
+        """
+        Pause App to be able to resume back to it after sending an email
+        :return:
+        """
+        return True
+
+    def on_resume(self):
+        """
+        Comming back to the same state of App after sending an email
+        :return:
+        """
+        pass
 
 if __name__ == "__main__":
     GameApp().run()
