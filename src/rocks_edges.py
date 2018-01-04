@@ -172,7 +172,7 @@ class Rocks_edges(Obstacles):
     """
 
     def __init__(self, flight_speed=13):
-        super(Rocks_edges, self).__init__(speed=flight_speed, picture_src='pictures/square_3.png', offset_positions=INITIAL_POS_OFFSETS,
+        super(Rocks_edges, self).__init__(speed=flight_speed, picture_src='pictures/square_3_new.png', offset_positions=INITIAL_POS_OFFSETS,
                                     allow_stretch=True, allow_keep_ratio=False)
         self.initial_pos_offset_with_flags = generate_coordinates_with_flags()
 

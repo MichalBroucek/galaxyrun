@@ -153,9 +153,9 @@ class Game(Widget):
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 2:
-            return Background(background_picture='pictures/game_backgrounds/bckg_level_2b.png',
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_2c.png',
                                         #todo: Make new final screen for level 2
-                                          last_background_image='pictures/final_screens/final_1_static.png')
+                                          last_background_image='pictures/final_screens/final_2_static.png')
         elif self.running_level == 3:
             #todo: make new background and final screen for level 3
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',

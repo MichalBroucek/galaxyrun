@@ -38,10 +38,10 @@ from src.app_screen import AppScreen
 # DONE      # OR at minimum add contact form ... :-)
 # DONE 18) Use free music ! - almost done - just check it and commit ...
 # DONE 19) Make LABEL and MENUs consistent
-# 20) Make new backgrounds - for level 1 and level 2 (?), for last screen level 2
+# DONE 20) Make new backgrounds - for level 1 and level 2 (?), for last screen level 2
 # 21) Make final screen after finnishing level 2
 # 22) Make app Icon !
-# 23) Make splash screen !
+# DONE 23) Make splash screen ! - how big ?
 # 24) PUSH it to Android market ... as Galaxyrun-Lite
 
 

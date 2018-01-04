@@ -48,6 +48,8 @@ requirements = kivy, pyjnius, plyer
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/pictures/splash_screen_1024_frame.jpg
+#presplash.filename = %(source.dir)s/pictures/rock_sq_200.png
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png

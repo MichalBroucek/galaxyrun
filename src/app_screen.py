@@ -329,16 +329,21 @@ class AppScreen(FloatLayout):
         # Help text
         text = \
         """
-        [b]game[/b]          ... tady bude nejaka napoveda ...
-                                 neco jako jak hrat ...
-        [b]konfigurace[/b]   ... a jak konfigurovat
-        [b][/b]
-        ...
+        [b]play game[/b]      - Goal of the game is to flight through galaxy without collision with any object
+                              - Just touch the 'slider' in the bottom of the screen and move to the right or left side
+
+
+
+        [b]speed[/b]          - In configuration screen you can choose among SLOW, MEDIUM or FAST speed
+
+
+
+        [b]sound[/b]          - In configuration screen you can switch sound ON or OFF
         """
         help_text = Label(text=text, markup=True)
         help_text.font_size = 24
         help_text.color = [0.97, 0.97, 0.97, 0.9]
-        help_text.pos_hint = {'x': -0.27, 'y': 0.1}
+        help_text.pos_hint = {'x': -0.1, 'y': 0.0}
         self.add_widget(help_text)
 
         # Main menu button
