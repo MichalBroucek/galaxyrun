@@ -1,7 +1,7 @@
 [app]
 
 # (str) Title of your application
-title = GalaxyRun
+title = GalaxyRun demo
 
 # (str) Package name
 package.name = galaxyrun
@@ -48,11 +48,12 @@ requirements = kivy, pyjnius, plyer
 
 # (str) Presplash of the application
 #presplash.filename = %(source.dir)s/data/presplash.png
-presplash.filename = %(source.dir)s/pictures/splash_screen_1024_frame.jpg
+presplash.filename = %(source.dir)s/pictures/splash_screen_800_frame.jpg
 #presplash.filename = %(source.dir)s/pictures/rock_sq_200.png
 
 # (str) Icon of the application
 #icon.filename = %(source.dir)s/data/icon.png
+icon.filename = %(source.dir)s/pictures/icon_192x192.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = landscape

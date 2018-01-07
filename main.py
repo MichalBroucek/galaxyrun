@@ -31,7 +31,7 @@ from src.app_screen import AppScreen
 # DONE 14) Make configuration persistent !
 # DONE 15) Add more meteorites on background for level 2
 # DONE 15) Make more testing (different devices - optimize collisions - change music to free music ... )
-# 16) Test speed values - SLoW = can be a little faster)
+# DONE 16) Test speed values - SLoW = can be a little faster)
 #                         MEDIUM = can be faster for 1st level (2nd level ?)
 #                         FAST = can be faster for 1st level (2nd level ?)
 # CANCELED 17) Donate button (probably not possible ...) - free and pay version ? - 3rd level ? - longer levels ?
@@ -39,10 +39,16 @@ from src.app_screen import AppScreen
 # DONE 18) Use free music ! - almost done - just check it and commit ...
 # DONE 19) Make LABEL and MENUs consistent
 # DONE 20) Make new backgrounds - for level 1 and level 2 (?), for last screen level 2
-# 21) Make final screen after finnishing level 2
-# 22) Make app Icon !
+# DONE 21) Make final screen after finnishing level 2
+# DONE 22) Make app Icon !
 # DONE 23) Make splash screen ! - how big ?
 # 24) PUSH it to Android market ... as Galaxyrun-Lite
+# DONE 25) New rock_edges for 2nd level
+# DONE 26) Make bigger button text
+# CANCELED 27) Make final screen after finishing last level
+# 28) Change name to DEMO ... OK
+# 30) Check both screens ... OK
+# 31) Try smaller splash screen
 
 
 class GameApp(App):

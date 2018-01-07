@@ -38,12 +38,25 @@ def get_background(picture_path='pictures/background_bigger.png'):
     return bckg_image
 
 
-SPEED_SLOW = 7
-SPEED_MEDIUM = 13
-SPEED_FAST = 17
+SPEED_SLOW = 14
+SPEED_MEDIUM = 20
+SPEED_FAST = 26
 
-#MUSIC_VOLUME = 0.05     # Headphones
+# MUSIC_VOLUME = 0.05     # Headphones
 MUSIC_VOLUME = 0.5     # Android device
+
+FONT_SIZE_BUTTON = 28                   # OK - small screen
+FONT_SIZE_HEADLINES = 61                # OK - small screen
+
+SIZE_HINT_BUTTON_NORMAL = (.24, .1)     # OK - small screen
+
+SIZE_HINT_BUTTON_LEVELS = (.20, .15)    # OK - small screen
+
+SIZE_HINT_BUTTON_BIG = (.20, .15)       # OK - small screen
+
+SIZE_HINT_BUTTON_SMALL = (.17, .1)      # OK - small screen
+
+SIZE_HINT_BUTTON_CONF = (.13, .1)       # OK - small screen
 
 
 class AppScreen(FloatLayout):
@@ -117,40 +130,46 @@ class AppScreen(FloatLayout):
         self.add_widget(self.bckg_image)
 
         # Galaxyrun Label
-        self.galaxy_run_l = Label(text='[b]GALAXY RUN[/b]', markup=True)
-        self.galaxy_run_l.font_size = 62
+        self.galaxy_run_l = Label(text='[b]GALAXY RUN demo[/b]', markup=True)
+        self.galaxy_run_l.font_size = FONT_SIZE_HEADLINES
         self.galaxy_run_l.bold = True
         self.galaxy_run_l.color = [0.8, 0.8, 0.8, 0.5]
         self.galaxy_run_l.pos_hint = {'x': .0, 'y': .4}
         self.add_widget(self.galaxy_run_l)
 
         # New Game Button
-        self.play_b = Button(text='New game', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .65})
+        self.play_b = Button(text='New game', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_NORMAL,
+                             pos_hint={'x': .4, 'y': .65})
         self.play_b.bind(on_press=self.activate_new_game)  # Add functionality to 'play button'
         self.add_widget(self.play_b)
 
         # Individual Levels Button
-        self.levels_b = Button(text='Levels', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .47})
+        self.levels_b = Button(text='Levels', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_NORMAL,
+                               pos_hint={'x': .4, 'y': .47})
         self.levels_b.bind(on_press=self.activate_levels)  # Add functionality to 'Levels button'
         self.add_widget(self.levels_b)
 
         # Configuration Button
-        self.configuration_b = Button(text='Configuration', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .28})
+        self.configuration_b = Button(text='Configuration', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_NORMAL,
+                                      pos_hint={'x': .4, 'y': .28})
         self.configuration_b.bind(on_press=self.activate_configuratin_window)  # Add functionality to 'Levels button'
         self.add_widget(self.configuration_b)
 
         # Send message button
-        self.send_msg_b = Button(text='Send Msg', font_size=22, size_hint=(.1, .1), pos_hint={'x': .8, 'y': .28})
+        self.send_msg_b = Button(text='Send Msg', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_SMALL,
+                                 pos_hint={'x': .8, 'y': .28})
         self.send_msg_b.bind(on_press=self.activate_send_msg)
         self.add_widget(self.send_msg_b)
 
         # Help button
-        self.help_b = Button(text='Help', font_size=22, size_hint=(.1, .1), pos_hint={'x': .1, 'y': .28})
+        self.help_b = Button(text='Help', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_SMALL,
+                             pos_hint={'x': .1, 'y': .28})
         self.help_b.bind(on_press=self.activate_help)
         self.add_widget(self.help_b)
 
         # Exit Button
-        self.exit_b = Button(text='Exit', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .1})
+        self.exit_b = Button(text='Exit', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_NORMAL,
+                             pos_hint={'x': .4, 'y': .1})
         self.exit_b.bind(on_press=self.exit_game)  # Add functionality to 'Exit button'
         self.add_widget(self.exit_b)
 
@@ -179,7 +198,8 @@ class AppScreen(FloatLayout):
         self.game = Game(self)
         self.game.size = self.size
         self.add_widget(self.game)
-        self.game.run_game(game_level=2, play_sound=self.sound, speed=self.speed)
+        speed_for_level_2 = self.speed - 7
+        self.game.run_game(game_level=2, play_sound=self.sound, speed=speed_for_level_2)
 
     def activate_levels(self, event):
         """
@@ -195,7 +215,7 @@ class AppScreen(FloatLayout):
 
         # Levels label
         self.levels_l = Label(text='[b]LEVELS[/b]', markup=True)
-        self.levels_l.font_size = 46
+        self.levels_l.font_size = FONT_SIZE_HEADLINES
         self.levels_l.bold = True
         self.levels_l.color = [0.8, 0.8, 0.8, 0.5]
         self.levels_l.pos_hint = {'x': .0, 'y': .3}
@@ -203,18 +223,21 @@ class AppScreen(FloatLayout):
 
         # Level Buttons (levels 1, 2, 3 - active or not active)
         # todo: Icons for individual levels ... 1, 2, 3
-        self.level_1_b = Button(text='1st Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .2, 'y': .5})
+        self.level_1_b = Button(text='1st Level', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                pos_hint={'x': .2, 'y': .5})
         self.level_1_b.bind(on_press=self.activate_new_game)
         self.add_widget(self.level_1_b)
 
-        self.level_2_b = Button(text='2nd Level', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .5})
+        self.level_2_b = Button(text='2nd Level', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                pos_hint={'x': .6, 'y': .5})
         self.level_2_b.bind(on_press=self.activate_level_2_game)
         if self.max_active_level < 2:
             self.level_2_b.disabled = True
         self.add_widget(self.level_2_b)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                  pos_hint={'x': .4, 'y': .2})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -233,7 +256,7 @@ class AppScreen(FloatLayout):
 
         # Levels label
         self.configuration_l = Label(text='[b]CONFIGURATION[/b]', markup=True)
-        self.configuration_l.font_size = 62
+        self.configuration_l.font_size = FONT_SIZE_HEADLINES
         self.configuration_l.bold = True
         self.configuration_l.color = [0.8, 0.8, 0.8, 0.5]
         self.configuration_l.pos_hint = {'x': .0, 'y': .3}
@@ -248,12 +271,14 @@ class AppScreen(FloatLayout):
         self.add_widget(self.sound_l)
 
         # Sound ON button
-        self.sound_on_b = Button(text='On', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.05, 'y': 0.45})
+        self.sound_on_b = Button(text='On', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_CONF,
+                                 pos_hint={'x': 0.05, 'y': 0.45})
         self.sound_on_b.bind(on_press=self.__set_sound_on)
         self.add_widget(self.sound_on_b)
 
         # Sound OFF button
-        self.sound_off_b = Button(text='Off', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.25, 'y': 0.45})
+        self.sound_off_b = Button(text='Off', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_CONF,
+                                  pos_hint={'x': 0.25, 'y': 0.45})
         self.sound_off_b.bind(on_press=self.__set_sound_off)
         self.add_widget(self.sound_off_b)
 
@@ -275,17 +300,20 @@ class AppScreen(FloatLayout):
         self.add_widget(self.speed_l)
 
         # Speed SLOW button
-        self.speed_slow_b = Button(text='Slow', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.55, 'y': 0.45})
+        self.speed_slow_b = Button(text='Slow', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_CONF,
+                                   pos_hint={'x': 0.5, 'y': 0.45})
         self.speed_slow_b.bind(on_press=self.__set_speed_slow)
         self.add_widget(self.speed_slow_b)
 
         # Speed MEDIUM button
-        self.speed_medium_b = Button(text='Medium', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.7, 'y': 0.45})
+        self.speed_medium_b = Button(text='Medium', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_CONF,
+                                     pos_hint={'x': 0.67, 'y': 0.45})
         self.speed_medium_b.bind(on_press=self.__set_speed_medium)
         self.add_widget(self.speed_medium_b)
 
         # Speed FAST button
-        self.speed_fast_b = Button(text='Fast', font_size=22, size_hint=(.1, .1), pos_hint={'x': 0.85, 'y': 0.45})
+        self.speed_fast_b = Button(text='Fast', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_CONF,
+                                   pos_hint={'x': 0.84, 'y': 0.45})
         self.speed_fast_b.bind(on_press=self.__set_speed_fast)
         self.add_widget(self.speed_fast_b)
 
@@ -303,7 +331,8 @@ class AppScreen(FloatLayout):
         self.add_widget(self.speed_checked)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .1})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                  pos_hint={'x': .4, 'y': .1})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -320,34 +349,34 @@ class AppScreen(FloatLayout):
 
         # Levels label
         help_l = Label(text='[b]HELP[/b]', markup=True)
-        help_l.font_size = 46
+        help_l.font_size = FONT_SIZE_HEADLINES
         help_l.bold = True
         help_l.color = [0.8, 0.8, 0.8, 0.5]
-        help_l.pos_hint = {'x': .0, 'y': .3}
+        help_l.pos_hint = {'x': .0, 'y': .35}
         self.add_widget(help_l)
 
         # Help text
         text = \
         """
-        [b]play game[/b]      - Goal of the game is to flight through galaxy without collision with any object
-                              - Just touch the 'slider' in the bottom of the screen and move to the right or left side
+        [b]play game[/b]     - Goal of the game is to flight through galaxy without collision
+                                 with another object
+                               - Just touch the 'slider' in the bottom of the screen and move
+                                 to the right or to the left side
 
-
-
-        [b]speed[/b]          - In configuration screen you can choose among SLOW, MEDIUM or FAST speed
-
-
+        [b]speed[/b]          - In configuration screen you can choose among SLOW,
+                                MEDIUM or FAST speed
 
         [b]sound[/b]          - In configuration screen you can switch sound ON or OFF
         """
         help_text = Label(text=text, markup=True)
-        help_text.font_size = 24
+        help_text.font_size = 22
         help_text.color = [0.97, 0.97, 0.97, 0.9]
-        help_text.pos_hint = {'x': -0.1, 'y': 0.0}
+        help_text.pos_hint = {'x': 0.0, 'y': 0.0}
         self.add_widget(help_text)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.2, .1), pos_hint={'x': .4, 'y': .1})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_NORMAL,
+                                  pos_hint={'x': .4, 'y': .1})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -406,7 +435,7 @@ class AppScreen(FloatLayout):
         :return:
         """
         try:
-            email.send(recipient='michalbroucek@gmail.com', subject='Galaxyrun feedback', text='Your message from App here: ')
+            email.send(recipient='michalbroucek@gmail.com', subject='Galaxyrun demo feedback', text='Your message from App here: ')
             self.__activate_menu(None)
         except:
             print '!!! Cannot send an EMAIL - unknow reason !!!'
@@ -423,7 +452,7 @@ class AppScreen(FloatLayout):
 
         # No connection label text
         no_connection_l = Label(text='[b]No Internet connection available ![/b]', markup=True)
-        no_connection_l.font_size = 46
+        no_connection_l.font_size = FONT_SIZE_HEADLINES
         no_connection_l.bold = True
         no_connection_l.color = [0.8, 0.8, 0.8, 0.5]
         no_connection_l.pos_hint = {'x': .0, 'y': .3}
@@ -431,14 +460,15 @@ class AppScreen(FloatLayout):
 
         # No connection label description
         no_connection_l = Label(text='Please check or activate your data connection.')
-        no_connection_l.font_size = 36
+        no_connection_l.font_size = 47
         no_connection_l.bold = True
         no_connection_l.color = [0.8, 0.8, 0.8, 0.5]
         no_connection_l.pos_hint = {'x': .0, 'y': .0}
         self.add_widget(no_connection_l)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .4, 'y': .2})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                  pos_hint={'x': .4, 'y': .2})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -464,20 +494,22 @@ class AppScreen(FloatLayout):
         self.add_widget(self.bckg_image)
 
         self.game_over_l = Label(text='[b]GAME OVER[/b]', markup=True)
-        self.game_over_l.font_size = 46
+        self.game_over_l.font_size = FONT_SIZE_HEADLINES
         self.game_over_l.bold = True
         self.game_over_l.color = [0.8, 0.8, 0.8, 0.5]
         self.game_over_l.pos_hint = {'x': .0, 'y': 0.1}
         self.add_widget(self.game_over_l)
 
         # Play again button
-        self.play_again_b = Button(text='Play again', font_size=22, size_hint=(.15, .15), pos_hint={'x': .2, 'y': .3})
+        self.play_again_b = Button(text='Play again', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                   pos_hint={'x': .2, 'y': .3})
         activate_the_same_level_function = self.__get_level_function(level)
         self.play_again_b.bind(on_press=activate_the_same_level_function)
         self.add_widget(self.play_again_b)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .3})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_LEVELS,
+                                  pos_hint={'x': .6, 'y': .3})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 
@@ -502,7 +534,7 @@ class AppScreen(FloatLayout):
 
         message_finnish = '[b]LEVEL  ' + str(level) + '  COMPLETED[/b]'
         self.level_completed_l = Label(text=message_finnish, markup=True)
-        self.level_completed_l.font_size = 46
+        self.level_completed_l.font_size = FONT_SIZE_HEADLINES
         self.level_completed_l.bold = True
         self.level_completed_l.color = [0.8, 0.8, 0.8, 0.5]
         self.level_completed_l.pos_hint = {'x': 0.0, 'y': 0.3}
@@ -510,7 +542,7 @@ class AppScreen(FloatLayout):
 
         message_activated = "".join(['[b]Level ', str(new_level), ' activated[/b]'])
         self.level_activated_l = Label(text=message_activated, markup=True)
-        self.level_activated_l.font_size = 46
+        self.level_activated_l.font_size = 47
         self.level_activated_l.bold = True
         self.level_activated_l.color = [0.8, 0.8, 0.8, 0.5]
         self.level_activated_l.pos_hint = {'x': 0.0, 'y': 0.0}
@@ -518,13 +550,50 @@ class AppScreen(FloatLayout):
 
         # Play New level button
         button_label = "".join(['Play Level ', str(new_level)])
-        self.new_level_b = Button(text=button_label, font_size=22, size_hint=(.20, .15), pos_hint={'x': .2, 'y': .2})
+        self.new_level_b = Button(text=button_label, font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_BIG,
+                                  pos_hint={'x': .2, 'y': .2})
         start_next_level_function = self.__get_level_function(new_level)
         self.new_level_b.bind(on_press=start_next_level_function)
         self.add_widget(self.new_level_b)
 
         # Main menu button
-        self.main_menu_b = Button(text='Main menu', font_size=22, size_hint=(.15, .15), pos_hint={'x': .6, 'y': .2})
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_BIG,
+                                  pos_hint={'x': .6, 'y': .2})
+        self.main_menu_b.bind(on_press=self.__activate_menu)
+        self.add_widget(self.main_menu_b)
+
+    def last_level_finish_screen(self):
+        """
+        Last level screen was completed - CONGRATULATION (no more levels available)
+        :return:
+        """
+        self.play_menu_music_list()
+        self.clear_widgets()
+
+        # Menu Background
+        # TODO: make new background + some item (rocket + meteorites)
+        self.bckg_image = get_background(picture_path='pictures/menu_background.png')
+        self.add_widget(self.bckg_image)
+
+        message_finnish = '[b]LAST LEVEL IS COMPLETED[/b]'
+        self.level_completed_l = Label(text=message_finnish, markup=True)
+        self.level_completed_l.font_size = FONT_SIZE_HEADLINES
+        self.level_completed_l.bold = True
+        self.level_completed_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.level_completed_l.pos_hint = {'x': 0.0, 'y': 0.3}
+        self.add_widget(self.level_completed_l)
+
+        message_activated = "".join(['[b]                 Congratulation\n\nyou finished last level in DEMO mode[/b]'])
+        self.level_activated_l = Label(text=message_activated, markup=True)
+        self.level_activated_l.font_size = 45
+        self.level_activated_l.bold = True
+        self.level_activated_l.color = [0.8, 0.8, 0.8, 0.5]
+        self.level_activated_l.pos_hint = {'x': 0.0, 'y': 0.0}
+        self.add_widget(self.level_activated_l)
+
+        # Main menu button
+        self.main_menu_b = Button(text='Main menu', font_size=FONT_SIZE_BUTTON, size_hint=SIZE_HINT_BUTTON_BIG,
+                                  pos_hint={'x': .4, 'y': .1})
         self.main_menu_b.bind(on_press=self.__activate_menu)
         self.add_widget(self.main_menu_b)
 

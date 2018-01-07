@@ -142,7 +142,11 @@ class Game(Widget):
         """
         self.__stop_music()
         self.__stop_update()
-        self.game_screen.level_finish_screen(self.running_level)
+
+        if self.running_level == 2:
+            self.game_screen.last_level_finish_screen()
+        else:
+            self.game_screen.level_finish_screen(self.running_level)
 
     def __get_background_for_game(self):
         """
@@ -153,13 +157,8 @@ class Game(Widget):
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')
         elif self.running_level == 2:
-            return Background(background_picture='pictures/game_backgrounds/bckg_level_2c.png',
-                                        #todo: Make new final screen for level 2
+            return Background(background_picture='pictures/game_backgrounds/bckg_level_2d.png',
                                           last_background_image='pictures/final_screens/final_2_static.png')
-        elif self.running_level == 3:
-            #todo: make new background and final screen for level 3
-            return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
-                                          last_background_image='pictures/final_screens/final_1_static.png')
         else:
             return Background(background_picture='pictures/game_backgrounds/bckg_level_1.png',
                                           last_background_image='pictures/final_screens/final_1_static.png')

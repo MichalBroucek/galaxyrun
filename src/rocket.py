@@ -6,8 +6,8 @@ from kivy.core.audio import SoundLoader
 import app_screen
 
 ROCKET_PNG = "pictures/rocket_01_40x69.png"
-ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
-ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
+# ROCKET_HIT_WHITE_PNG = "pictures/rocket_01_40x69_white_01.png"
+# ROCKET_HIT_RED_PNG = "pictures/rocket_01_40x69_red_01.png"
 
 template = "pictures/explosion_process/explosion_%d.png"
 explosions = [template % i for i in range(1, 8)]
