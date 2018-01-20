@@ -24,3 +24,7 @@ This is simple fullscreen GUI touch game. Running on Desktop PC and Android.
 
 #### Deploy Android App onto connected Android mobile phone
 `buildozer android deploy`
+
+### Availability
+You can find this App on Android Play Store under name 'GalaxyRun demo'
+
