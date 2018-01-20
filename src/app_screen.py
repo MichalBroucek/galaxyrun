@@ -43,19 +43,15 @@ SPEED_MEDIUM = 20
 SPEED_FAST = 26
 
 # MUSIC_VOLUME = 0.05     # Headphones
-MUSIC_VOLUME = 0.5     # Android device
+MUSIC_VOLUME = 0.5        # Android device
 
 FONT_SIZE_BUTTON = 28                   # OK - small screen
 FONT_SIZE_HEADLINES = 61                # OK - small screen
 
 SIZE_HINT_BUTTON_NORMAL = (.24, .1)     # OK - small screen
-
 SIZE_HINT_BUTTON_LEVELS = (.20, .15)    # OK - small screen
-
 SIZE_HINT_BUTTON_BIG = (.20, .15)       # OK - small screen
-
 SIZE_HINT_BUTTON_SMALL = (.17, .1)      # OK - small screen
-
 SIZE_HINT_BUTTON_CONF = (.13, .1)       # OK - small screen
 
 

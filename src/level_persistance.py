@@ -91,7 +91,7 @@ class Persistence:
         Read current sound configuration (ON/OFF = True/False) from JSON file
         :return:
         """
-        sound = False
+        sound = True        # Sound is ON by default - for Android marker
 
         try:
             if self.store.exists(SOUND_STORE):
