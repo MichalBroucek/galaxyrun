@@ -10,14 +10,9 @@ from kivy.app import App
 
 from src.app_screen import AppScreen
 
-# TODO:
-# 32) PUSH it to Android market ... as Galaxyrun-Demo
-
 
 class GameApp(App):
     def build(self):
-        # game = Game()
-        # return game
         appScreen = AppScreen()
         return appScreen
 
