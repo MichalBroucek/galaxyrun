@@ -11,9 +11,9 @@ This is simple fullscreen GUI touch game. Running on Desktop PC and Android.
 
 
 ### Requirements:
-* Complete list will be done once app is finnished
 * Python 2.7
 * Kivy framework
+* for details see requirements.txt
 
 ### Run
 
